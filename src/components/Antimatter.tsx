@@ -10,6 +10,7 @@ interface ShapeConfig {
   getPosition: (index: number, total: number, radius: number) => { x: number; y: number; z: number };
 }
 
+<<<<<<< HEAD
 // Detect low-end devices
 const isLowEndDevice = (): boolean => {
   if (typeof window === 'undefined') return false;
@@ -30,6 +31,8 @@ const isLowEndDevice = (): boolean => {
   return false;
 };
 
+=======
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
 // Clean, recognizable 3D shapes for the particle animation
 const SHAPES: Record<string, ShapeConfig> = {
   // Sphere - Classic elegant shape (default for Hero)
@@ -245,10 +248,15 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
   const timeRef = useRef(0);
   const currentShapeRef = useRef('sphere');
   const shapeIndexRef = useRef(0);
+<<<<<<< HEAD
   const frameCountRef = useRef(0);
   
   const [isMobile, setIsMobile] = useState(false);
   const [isLowEnd, setIsLowEnd] = useState(false);
+=======
+  
+  const [isMobile, setIsMobile] = useState(false);
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
   const [scrollProgress, setScrollProgress] = useState(0);
   
   // Track scroll progress for smooth position interpolation and visibility
@@ -282,6 +290,7 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
   const isVisible = scrollProgress < 2;
   const fadeOpacity = scrollProgress < 1.5 ? 1 : Math.max(0, 1 - (scrollProgress - 1.5) * 2);
   
+<<<<<<< HEAD
   // Significantly reduced particle count for performance
   // Low-end: 80 particles, Mobile: 120 particles, Desktop: 200 particles
   const PARTICLE_COUNT = useMemo(() => {
@@ -301,6 +310,11 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
     if (isMobile) return 400;
     return 600;
   }, [isMobile, isLowEnd]);
+=======
+  const PARTICLE_COUNT = useMemo(() => isMobile ? 200 : 350, [isMobile]);
+  const BASE_RADIUS = useMemo(() => isMobile ? 120 : 170, [isMobile]);
+  const CANVAS_SIZE = useMemo(() => isMobile ? 450 : 720, [isMobile]);
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
   
   const initializeParticles = useCallback((shape: string) => {
     const shapeConfig = SHAPES[shape] || SHAPES.sphere;
@@ -373,10 +387,14 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
   }, [isVisible, currentSection, morphToShape]);
   
   useEffect(() => {
+<<<<<<< HEAD
     const check = () => {
       setIsMobile(window.innerWidth < 768);
       setIsLowEnd(isLowEndDevice());
     };
+=======
+    const check = () => setIsMobile(window.innerWidth < 768);
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
@@ -418,17 +436,25 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     
+<<<<<<< HEAD
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
     
     // Use lower DPR on low-end devices for better performance
     const dpr = isLowEnd ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+=======
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const dpr = window.devicePixelRatio || 1;
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
     canvas.width = CANVAS_SIZE * dpr;
     canvas.height = CANVAS_SIZE * dpr;
     canvas.style.width = CANVAS_SIZE + 'px';
     canvas.style.height = CANVAS_SIZE + 'px';
     ctx.scale(dpr, dpr);
     
+<<<<<<< HEAD
     // Frame skip for low-end devices (render every 2nd frame)
     const frameSkip = isLowEnd ? 2 : 1;
     
@@ -441,12 +467,19 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
         return;
       }
       
+=======
+    const animate = () => {
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
       const cx = CANVAS_SIZE / 2;
       const cy = CANVAS_SIZE / 2;
       
       ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       
+<<<<<<< HEAD
       timeRef.current += isLowEnd ? 0.012 : 0.008;
+=======
+      timeRef.current += 0.008;
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
       
       // Check if mouse has stopped moving (for recovery)
       const now = Date.now();
@@ -458,7 +491,11 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
       }
       
       // Smooth rotation
+<<<<<<< HEAD
       rotationRef.current.y += isLowEnd ? 0.006 : 0.004;
+=======
+      rotationRef.current.y += 0.004;
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
       rotationRef.current.x = Math.sin(timeRef.current * 0.2) * 0.05;
       
       // Scatter effect based on mouse activity
@@ -474,6 +511,7 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
       const scatter = scatterRef.current;
       const mouseX = mouseRef.current.x;
       const mouseY = mouseRef.current.y;
+<<<<<<< HEAD
       const isHovering = mouseRef.current.isHovering && !isLowEnd; // Disable hover on low-end
       const velX = mouseRef.current.velocityX;
       const velY = mouseRef.current.velocityY;
@@ -483,6 +521,14 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
       const sorted = shouldSort 
         ? [...particlesRef.current].sort((a, b) => a.currentZ - b.currentZ)
         : particlesRef.current;
+=======
+      const isHovering = mouseRef.current.isHovering;
+      const velX = mouseRef.current.velocityX;
+      const velY = mouseRef.current.velocityY;
+      
+      // Sort by Z for depth (less frequent sorting)
+      const sorted = [...particlesRef.current].sort((a, b) => a.currentZ - b.currentZ);
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
       
       sorted.forEach((p) => {
         // First, calculate projected screen position for scatter detection
@@ -581,6 +627,7 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
         const sat = color.s;
         const light = color.l + clampedDepth * 15;
         
+<<<<<<< HEAD
         // Skip outer glow on low-end devices for performance
         if (!isLowEnd) {
           // Outer glow - simple filled circle
@@ -589,6 +636,13 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
           ctx.fillStyle = `hsla(${hue},${sat}%,${light}%,${finalOpacity * 0.25})`;
           ctx.fill();
         }
+=======
+        // Outer glow - simple filled circle
+        ctx.beginPath();
+        ctx.arc(finalPx, finalPy, finalSize * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${hue},${sat}%,${light}%,${finalOpacity * 0.25})`;
+        ctx.fill();
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
         
         // Core particle
         ctx.beginPath();
@@ -605,7 +659,11 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
     return () => {
       cancelAnimationFrame(animationRef.current);
     };
+<<<<<<< HEAD
   }, [isMobile, isLowEnd, BASE_RADIUS, CANVAS_SIZE]);
+=======
+  }, [isMobile, BASE_RADIUS, CANVAS_SIZE]);
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
   
   // Smooth position interpolation based on scroll progress
   // On desktop: moves from 50% (center) to 15% (left) as scroll progresses through first section
@@ -656,7 +714,11 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
               onMouseMove={(e) => handleMouseMove(e.nativeEvent)}
               onMouseLeave={handleMouseLeave}
               style={{
+<<<<<<< HEAD
                 filter: isLowEnd ? 'none' : 'drop-shadow(0 0 40px rgba(225, 29, 72, 0.35))',
+=======
+                filter: 'drop-shadow(0 0 40px rgba(225, 29, 72, 0.35))',
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
               }}
             />
           </div>

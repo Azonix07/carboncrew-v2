@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 
+<<<<<<< HEAD
 // Detect low-end devices
 const isLowEndDevice = (): boolean => {
   if (typeof window === 'undefined') return false;
@@ -19,6 +20,12 @@ const Hero: React.FC = () => {
 
   useEffect(() => {
     setIsLowEnd(isLowEndDevice());
+=======
+const Hero: React.FC = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
@@ -61,12 +68,23 @@ const Hero: React.FC = () => {
         >
           <motion.div 
             className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-rose-500/20 backdrop-blur-sm"
+<<<<<<< HEAD
             whileHover={isLowEnd ? {} : { scale: 1.05, borderColor: 'rgba(225, 29, 72, 0.5)' }}
           >
             <div
               className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-rose-400 rounded-full status-pulse"
             />
             <span className="text-rose-300 text-[11px] sm:text-sm font-medium tracking-wide">
+=======
+            whileHover={{ scale: 1.05, borderColor: 'rgba(225, 29, 72, 0.5)' }}
+          >
+            <motion.div
+              animate={{ scale: [1, 1.3, 1], boxShadow: ['0 0 0px rgba(251,113,133,0.5)', '0 0 15px rgba(251,113,133,0.8)', '0 0 0px rgba(251,113,133,0.5)'] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-rose-400 rounded-full"
+            />
+            <span className="text-rose-300 text-xs sm:text-sm font-medium tracking-wide">
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
               Ready to Build Your Vision
             </span>
           </motion.div>
@@ -77,8 +95,13 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, delay: 0.4, type: 'spring', stiffness: 50 }}
+<<<<<<< HEAD
           className="font-display font-bold text-white leading-[1.1] sm:leading-[0.95] tracking-tight mb-4 sm:mb-4 lg:mb-6"
           style={{ fontSize: 'clamp(2.5rem, 10vw, 6rem)' }}
+=======
+          className="font-display font-bold text-white leading-[0.95] tracking-tight mb-3 sm:mb-4 lg:mb-6"
+          style={{ fontSize: 'clamp(2rem, 8vw, 6rem)' }}
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
         >
           <motion.span 
             className="block"
@@ -89,7 +112,11 @@ const Hero: React.FC = () => {
             We Build
           </motion.span>
           <motion.span 
+<<<<<<< HEAD
             className="block mt-1 sm:mt-1 lg:mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-red-400 to-rose-300"
+=======
+            className="block mt-0.5 sm:mt-1 lg:mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-red-400 to-rose-300"
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
             initial={{ opacity: 0, x: 50 }}
             animate={isLoaded ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -117,8 +144,13 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
           animate={isLoaded ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
           transition={{ duration: 0.8, delay: 0.9 }}
+<<<<<<< HEAD
           className="text-gray-400 max-w-xl mx-auto mb-6 sm:mb-8 leading-relaxed font-light px-2 sm:px-0"
           style={{ fontSize: 'clamp(0.95rem, 2.5vw, 1.125rem)' }}
+=======
+          className="text-gray-400 max-w-xl mx-auto mb-6 sm:mb-8 leading-relaxed font-light"
+          style={{ fontSize: 'clamp(0.9rem, 2vw, 1.125rem)' }}
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
         >
           A fresh digital studio bringing your ideas to life with 
           <span className="text-rose-400"> modern technology</span> and 
@@ -130,6 +162,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 1.1, type: 'spring', stiffness: 80 }}
+<<<<<<< HEAD
           className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0"
         >
           <motion.button
@@ -157,6 +190,35 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.3 }}
               />
             )}
+=======
+          className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
+        >
+          <motion.button
+            onClick={scrollToServices}
+            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(225, 29, 72, 0.4)' }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative w-full sm:w-auto px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-rose-500 to-red-500 rounded-full font-semibold text-white overflow-hidden text-sm sm:text-base"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              Explore Our Work
+              <motion.svg
+                className="w-4 h-4 sm:w-5 sm:h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </motion.svg>
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-red-500 to-rose-500"
+              initial={{ x: '100%' }}
+              whileHover={{ x: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
           </motion.button>
           
           <motion.button
@@ -166,7 +228,11 @@ const Hero: React.FC = () => {
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
+<<<<<<< HEAD
             className="w-full sm:w-auto px-6 sm:px-6 lg:px-8 py-3 sm:py-3 lg:py-4 rounded-full font-semibold text-white border border-white/20 hover:border-rose-500/50 hover:bg-white/5 transition-all duration-300 text-base sm:text-base"
+=======
+            className="w-full sm:w-auto px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 rounded-full font-semibold text-white border border-white/20 hover:border-rose-500/50 hover:bg-white/5 transition-all duration-300 text-sm sm:text-base"
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
           >
             Get in Touch
           </motion.button>

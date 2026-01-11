@@ -192,10 +192,17 @@ const Navigation: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+<<<<<<< HEAD
             className="fixed inset-0 z-40 md:hidden overflow-hidden"
           >
             <div
               className="absolute inset-0 bg-black/70 backdrop-blur-md"
+=======
+            className="fixed inset-0 z-40 md:hidden"
+          >
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
@@ -203,6 +210,7 @@ const Navigation: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+<<<<<<< HEAD
               className="absolute right-0 top-0 bottom-0 w-[70vw] max-w-[280px] bg-[#030014] border-l border-rose-500/20 flex flex-col overflow-hidden"
             >
               {/* Header with close button - solid background */}
@@ -310,6 +318,35 @@ const Navigation: React.FC = () => {
                 </motion.button>
                 <p className="text-center text-[9px] text-gray-500 mt-2">Let's build something amazing</p>
               </motion.div>
+=======
+              className="absolute right-0 top-0 h-full w-64 sm:w-72 bg-[#030014]/95 backdrop-blur-xl border-l border-white/10 p-4 sm:p-6 pt-16 sm:pt-20"
+            >
+              <div className="flex flex-col gap-3 sm:gap-4">
+                {navLinks.map((link, index) => (
+                  <motion.button
+                    key={link.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    onClick={() => scrollToSection(link.id)}
+                    className={`text-left text-base sm:text-lg py-1.5 sm:py-2 border-b border-white/10 transition-colors ${
+                      activeSection === link.id ? 'text-rose-400' : 'text-gray-300 hover:text-rose-400'
+                    }`}
+                  >
+                    {link.name}
+                  </motion.button>
+                ))}
+                <motion.button
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.1 }}
+                  onClick={() => scrollToSection('contact')}
+                  className="mt-3 sm:mt-4 px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-rose-500 to-red-500 text-white rounded-full font-semibold text-sm sm:text-base text-center"
+                >
+                  Start Project
+                </motion.button>
+              </div>
+>>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
             </motion.div>
           </motion.div>
         )}
