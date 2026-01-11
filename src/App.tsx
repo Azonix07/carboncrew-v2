@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useEffect, useState, useRef, createContext, useContext, useMemo } from 'react';
-=======
-import React, { useEffect, useState, useRef, createContext, useContext } from 'react';
->>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -13,7 +9,6 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Antimatter from './components/Antimatter';
 
-<<<<<<< HEAD
 // Detect low-end devices
 const isLowEndDevice = (): boolean => {
   if (typeof window === 'undefined') return false;
@@ -25,8 +20,6 @@ const isLowEndDevice = (): boolean => {
   return false;
 };
 
-=======
->>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
 // Create context for section management
 interface SectionContextType {
   currentSection: number;
@@ -45,7 +38,6 @@ export const useSectionContext = () => useContext(SectionContext);
 const App: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-<<<<<<< HEAD
   const [isLowEnd, setIsLowEnd] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const sections = ['hero', 'services', 'why', 'projects', 'contact', 'footer'];
@@ -67,11 +59,6 @@ const App: React.FC = () => {
     }));
   }, [isLowEnd]);
 
-=======
-  const containerRef = useRef<HTMLDivElement>(null);
-  const sections = ['hero', 'services', 'why', 'projects', 'contact', 'footer'];
-
->>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -166,7 +153,6 @@ const App: React.FC = () => {
         {/* Star field background */}
         <div className="fixed inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(15,23,42,1)_0%,_rgba(3,0,20,1)_100%)]" />
-<<<<<<< HEAD
           {/* Animated stars - optimized with CSS animations for better performance */}
           {!isLowEnd && stars.map((star) => (
             <div
@@ -177,25 +163,6 @@ const App: React.FC = () => {
                 top: star.top,
                 animationDelay: `${star.delay}s`,
                 animationDuration: `${star.duration}s`,
-=======
-          {/* Animated stars */}
-          {[...Array(100)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-[2px] h-[2px] bg-white rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                opacity: [0.2, 0.8, 0.2],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2 + Math.random() * 3,
-                repeat: Infinity,
-                delay: Math.random() * 2,
->>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
               }}
             />
           ))}

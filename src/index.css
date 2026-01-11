@@ -5,7 +5,6 @@
 @tailwind utilities;
 
 /* ========================================
-<<<<<<< HEAD
    PERFORMANCE OPTIMIZATIONS
 ======================================== */
 /* GPU acceleration for animated elements */
@@ -97,8 +96,6 @@
 }
 
 /* ========================================
-=======
->>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
    BASE STYLES
 ======================================== */
 @layer base {

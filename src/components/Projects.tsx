@@ -8,11 +8,7 @@ const projects = [
     category: 'Automation', 
     description: 'Complete shop automation system for GameSpot, streamlining inventory management, order processing, and business operations.',
     tags: ['Automation', 'Python', 'Integration'],
-<<<<<<< HEAD
     image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop',
-=======
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop',
->>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
     color: 'from-rose-500 to-red-500',
     stats: { users: 'Active', rating: '⭐' },
   },
@@ -21,11 +17,7 @@ const projects = [
     category: 'Web App', 
     description: 'Modern booking platform for GameSpot allowing customers to reserve gaming slots, view availability, and manage bookings online.',
     tags: ['React', 'Node.js', 'Booking System'],
-<<<<<<< HEAD
     image: '/assets/images/gamespot-booking.png',
-=======
-    image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop',
->>>>>>> aa114e6d22ef164a8c2030369b9ba769eb6df2cd
     color: 'from-purple-500 to-pink-500',
     stats: { users: 'Live', rating: '⭐' },
   },
