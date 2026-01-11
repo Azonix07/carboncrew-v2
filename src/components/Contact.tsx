@@ -117,7 +117,7 @@ const Contact: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
               transition={{ delay: 0.3 }}
-              className="space-y-1 xs:space-y-1.5 sm:space-y-2 md:space-y-3 mb-2 xs:mb-3 sm:mb-4 md:mb-5 lg:mb-6"
+              className="space-y-2 sm:space-y-2.5 md:space-y-3 mb-3 sm:mb-4 md:mb-5 lg:mb-6"
             >
               {contactInfo.map((item, i) => (
                 <motion.a 
@@ -131,21 +131,21 @@ const Contact: React.FC = () => {
                     type: 'spring',
                     stiffness: 100
                   }}
-                  className="flex items-center gap-1.5 xs:gap-2 sm:gap-2 md:gap-3 p-1.5 xs:p-2 sm:p-2.5 md:p-3 lg:p-4 rounded-lg sm:rounded-xl group cursor-pointer bg-white/[0.03] border border-white/[0.06] hover:border-rose-500/30 transition-all"
+                  className="flex items-center gap-3 sm:gap-3 md:gap-4 p-3 sm:p-3 md:p-4 lg:p-4 rounded-xl group cursor-pointer bg-white/[0.03] border border-white/[0.06] hover:border-rose-500/30 transition-all"
                   whileHover={{ x: 8, scale: 1.02, boxShadow: '0 8px 30px rgba(225, 29, 72, 0.12)' }}
                 >
                   <motion.div 
-                    className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-md sm:rounded-lg flex items-center justify-center bg-rose-500/10 text-rose-400 group-hover:bg-rose-500/20 transition-colors flex-shrink-0"
+                    className="w-10 h-10 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-lg flex items-center justify-center bg-rose-500/10 text-rose-400 group-hover:bg-rose-500/20 transition-colors flex-shrink-0"
                     whileHover={{ rotate: [0, -10, 10, 0] }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5">{item.icon}</div>
+                    <div className="w-5 h-5 sm:w-5 sm:h-5 md:w-5 md:h-5">{item.icon}</div>
                   </motion.div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[7px] xs:text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs text-gray-500 uppercase tracking-wider mb-0.5">{item.label}</p>
-                    <p className="text-white text-[9px] xs:text-[10px] sm:text-xs md:text-sm lg:text-base font-medium group-hover:text-rose-400 transition-colors truncate">{item.value}</p>
+                    <p className="text-[9px] sm:text-[10px] md:text-xs text-gray-500 uppercase tracking-wider mb-0.5">{item.label}</p>
+                    <p className="text-white text-xs sm:text-sm md:text-base font-medium group-hover:text-rose-400 transition-colors truncate">{item.value}</p>
                   </div>
-                  <svg className="w-2 h-2 xs:w-2.5 xs:h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 text-gray-600 group-hover:text-rose-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 text-gray-600 group-hover:text-rose-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </motion.a>
@@ -257,7 +257,7 @@ const Contact: React.FC = () => {
                         <label className="text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium">Your Name</label>
                         <motion.input
                           type="text"
-                          placeholder="John Doe"
+                          placeholder="Name"
                           required
                           value={formState.name}
                           onChange={(e) => setFormState({ ...formState, name: e.target.value })}
@@ -280,7 +280,7 @@ const Contact: React.FC = () => {
                         <label className="text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium">Email</label>
                         <motion.input
                           type="email"
-                          placeholder="john@example.com"
+                          placeholder="abc@example.com"
                           required
                           value={formState.email}
                           onChange={(e) => setFormState({ ...formState, email: e.target.value })}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, createContext, useContext } from 'react';
+import React, { useEffect, useState, useRef, createContext, useContext, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -8,6 +8,17 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Antimatter from './components/Antimatter';
+
+// Detect low-end devices
+const isLowEndDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const nav = navigator as any;
+  if (nav.deviceMemory && nav.deviceMemory < 4) return true;
+  if (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2) return true;
+  if (window.innerWidth < 768) return true;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+  return false;
+};
 
 // Create context for section management
 interface SectionContextType {
@@ -27,8 +38,26 @@ export const useSectionContext = () => useContext(SectionContext);
 const App: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isLowEnd, setIsLowEnd] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const sections = ['hero', 'services', 'why', 'projects', 'contact', 'footer'];
+
+  // Check for low-end device on mount
+  useEffect(() => {
+    setIsLowEnd(isLowEndDevice());
+  }, []);
+
+  // Generate star positions only once - reduced count for performance
+  const stars = useMemo(() => {
+    const count = isLowEnd ? 30 : 50; // Reduced from 100
+    return [...Array(count)].map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      delay: Math.random() * 2,
+      duration: 3 + Math.random() * 2,
+    }));
+  }, [isLowEnd]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -124,23 +153,16 @@ const App: React.FC = () => {
         {/* Star field background */}
         <div className="fixed inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(15,23,42,1)_0%,_rgba(3,0,20,1)_100%)]" />
-          {/* Animated stars */}
-          {[...Array(100)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-[2px] h-[2px] bg-white rounded-full"
+          {/* Animated stars - optimized with CSS animations for better performance */}
+          {!isLowEnd && stars.map((star) => (
+            <div
+              key={star.id}
+              className="absolute w-[2px] h-[2px] bg-white rounded-full star-twinkle"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                opacity: [0.2, 0.8, 0.2],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2 + Math.random() * 3,
-                repeat: Infinity,
-                delay: Math.random() * 2,
+                left: star.left,
+                top: star.top,
+                animationDelay: `${star.delay}s`,
+                animationDuration: `${star.duration}s`,
               }}
             />
           ))}

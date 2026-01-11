@@ -2,6 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
+// Detect low-end devices
+const isLowEndDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const nav = navigator as any;
+  if (nav.deviceMemory && nav.deviceMemory < 4) return true;
+  if (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2) return true;
+  if (window.innerWidth < 768) return true;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+  return false;
+};
+
 // Vector icons as SVG components
 const icons = {
   web: (
@@ -121,6 +132,45 @@ const Services: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [direction, setDirection] = useState(1);
+  const [isLowEnd, setIsLowEnd] = useState(false);
+  
+  // Touch/swipe state
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  useEffect(() => {
+    setIsLowEnd(isLowEndDevice());
+  }, []);
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+    setIsAutoPlaying(false); // Pause auto-play on touch
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      rotateRight();
+    } else if (isRightSwipe) {
+      rotateLeft();
+    }
+    
+    // Resume auto-play after a delay
+    setTimeout(() => setIsAutoPlaying(true), 5000);
+  };
 
   // Get the three visible services
   const getVisibleServices = useCallback(() => {
@@ -143,17 +193,17 @@ const Services: React.FC = () => {
     setCurrentIndex((prev) => (prev - 1 + services.length) % services.length);
   }, []);
 
-  // Auto-rotate every 5 seconds (slower for better performance)
+  // Auto-rotate every 6 seconds on desktop, 8 seconds on low-end (slower for better performance)
   useEffect(() => {
     if (!isAutoPlaying) return;
-    const interval = setInterval(rotateRight, 5000);
+    const interval = setInterval(rotateRight, isLowEnd ? 8000 : 6000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying, rotateRight]);
+  }, [isAutoPlaying, isLowEnd, rotateRight]);
 
   const { left, center, right } = getVisibleServices();
 
   return (
-    <section className="relative w-full h-full flex-1 flex items-center overflow-hidden pt-16 sm:pt-20 pb-4 sm:pb-6">
+    <section className="relative w-full h-full flex-1 flex items-center overflow-hidden pt-12 sm:pt-20 pb-4 sm:pb-6">
       {/* Static background - no animations */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 right-1/4 w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] bg-rose-500/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px] opacity-30" />
@@ -181,12 +231,9 @@ const Services: React.FC = () => {
               color: '#FB7185'
             }}
           >
-            <motion.span
-              animate={{ rotate: [0, 15, -15, 0] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-            >
+            <span className={isLowEnd ? '' : 'emoji-rotate'}>
               ⚡
-            </motion.span>
+            </span>
             What We Offer
           </motion.span>
           
@@ -212,29 +259,32 @@ const Services: React.FC = () => {
         {/* 3-Card Carousel */}
         <div 
           ref={cardsRef}
-          className="relative max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto"
+          className="relative max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto touch-pan-y"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
         >
           {/* Cards Container */}
           <motion.div 
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={cardsInView ? { opacity: 1, y: 0, scale: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.3, type: 'spring', stiffness: 80 }}
-            className="flex items-center justify-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-5 py-3 sm:py-4 md:py-5 lg:py-6 px-1.5 sm:px-3 md:px-4 lg:px-6 xl:px-8"
+            className="flex items-center justify-center gap-2 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-5 py-3 sm:py-4 md:py-5 lg:py-6 px-0 sm:px-3 md:px-4 lg:px-6 xl:px-8"
           >
-            {/* Left Card - Hidden on mobile */}
+            {/* Left Card - Peek on mobile, full on tablet+ */}
             <motion.div
               key={`left-${left.title}`}
-              className="hidden md:block w-28 lg:w-36 xl:w-44 2xl:w-48 flex-shrink-0 cursor-pointer"
+              className="w-10 sm:w-16 md:w-28 lg:w-36 xl:w-44 2xl:w-48 flex-shrink-0 cursor-pointer overflow-hidden"
               initial={false}
-              animate={{ scale: 0.8, opacity: 0.5 }}
+              animate={{ scale: 0.8, opacity: 0.4 }}
               whileHover={{ scale: 0.85, opacity: 0.7 }}
               transition={{ duration: 0.2 }}
               onClick={rotateLeft}
             >
               <div 
-                className="relative p-2.5 md:p-3 lg:p-4 xl:p-5 rounded-xl h-[160px] md:h-[180px] lg:h-[210px] xl:h-[240px] 2xl:h-[260px] flex flex-col overflow-hidden"
+                className="relative p-2 sm:p-2.5 md:p-3 lg:p-4 xl:p-5 rounded-lg sm:rounded-xl h-[180px] sm:h-[200px] md:h-[180px] lg:h-[210px] xl:h-[240px] 2xl:h-[260px] flex flex-col overflow-hidden"
                 style={{
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
                   border: '1px solid rgba(255, 255, 255, 0.06)',
@@ -245,9 +295,9 @@ const Services: React.FC = () => {
                   {icons[left.iconKey]}
                 </div>
                 
-                <h3 className="text-[10px] md:text-xs lg:text-sm xl:text-base font-semibold text-white/70 mb-1 relative z-10">{left.title}</h3>
-                <p className="text-gray-500 text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs line-clamp-2 relative z-10">{left.shortDesc}</p>
-                <div className="mt-auto flex flex-wrap gap-1 relative z-10">
+                <h3 className="text-[8px] sm:text-[9px] md:text-xs lg:text-sm xl:text-base font-semibold text-white/70 mb-1 relative z-10 line-clamp-1">{left.title}</h3>
+                <p className="text-gray-500 text-[7px] sm:text-[8px] md:text-[10px] lg:text-[11px] xl:text-xs line-clamp-2 relative z-10 hidden sm:block">{left.shortDesc}</p>
+                <div className="mt-auto flex flex-wrap gap-1 relative z-10 hidden md:flex">
                   {left.tags.slice(0, 2).map((tag, i) => (
                     <span key={i} className="text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] px-1 py-0.5 rounded bg-white/5 text-gray-600">{tag}</span>
                   ))}
@@ -330,18 +380,18 @@ const Services: React.FC = () => {
               </motion.div>
             </AnimatePresence>
 
-            {/* Right Card - Hidden on mobile */}
+            {/* Right Card - Peek on mobile, full on tablet+ */}
             <motion.div
               key={`right-${right.title}`}
-              className="hidden md:block w-32 lg:w-44 xl:w-52 2xl:w-56 flex-shrink-0 cursor-pointer"
+              className="w-10 sm:w-16 md:w-32 lg:w-44 xl:w-52 2xl:w-56 flex-shrink-0 cursor-pointer overflow-hidden"
               initial={false}
-              animate={{ scale: 0.9, opacity: 0.65 }}
+              animate={{ scale: 0.9, opacity: 0.5 }}
               whileHover={{ scale: 0.92, opacity: 0.8 }}
               transition={{ duration: 0.2 }}
               onClick={rotateRight}
             >
               <div 
-                className="relative p-2.5 md:p-3 lg:p-4 xl:p-5 rounded-xl h-[180px] md:h-[200px] lg:h-[250px] xl:h-[290px] 2xl:h-[320px] flex flex-col overflow-hidden"
+                className="relative p-2 sm:p-2.5 md:p-3 lg:p-4 xl:p-5 rounded-lg sm:rounded-xl h-[200px] sm:h-[220px] md:h-[200px] lg:h-[250px] xl:h-[290px] 2xl:h-[320px] flex flex-col overflow-hidden"
                 style={{
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -352,10 +402,10 @@ const Services: React.FC = () => {
                   {icons[right.iconKey]}
                 </div>
                 
-                <h3 className="text-[11px] md:text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold text-white/80 mb-1 relative z-10">{right.title}</h3>
-                <p className="text-gray-400 text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs line-clamp-2 mb-1 relative z-10">{right.shortDesc}</p>
+                <h3 className="text-[8px] sm:text-[9px] md:text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold text-white/80 mb-1 relative z-10 line-clamp-1">{right.title}</h3>
+                <p className="text-gray-400 text-[7px] sm:text-[8px] md:text-[10px] lg:text-[11px] xl:text-xs line-clamp-2 mb-1 relative z-10 hidden sm:block">{right.shortDesc}</p>
                 
-                <div className="space-y-0.5 mb-auto relative z-10">
+                <div className="space-y-0.5 mb-auto relative z-10 hidden md:block">
                   {right.features.slice(0, 3).map((feature, i) => (
                     <div key={i} className="flex items-center gap-0.5 sm:gap-1 text-[8px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-xs text-gray-500">
                       <span className="text-rose-500/50">•</span>
@@ -364,7 +414,7 @@ const Services: React.FC = () => {
                   ))}
                 </div>
                 
-                <div className="flex flex-wrap gap-1 mt-1 relative z-10">
+                <div className="flex flex-wrap gap-1 mt-1 relative z-10 hidden md:flex">
                   {right.tags.slice(0, 2).map((tag, i) => (
                     <span key={i} className="text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] px-1 py-0.5 rounded bg-white/5 text-gray-500">{tag}</span>
                   ))}
@@ -374,9 +424,26 @@ const Services: React.FC = () => {
           </motion.div>
 
           {/* Swipe hint for mobile */}
-          <div className="flex md:hidden justify-center items-center gap-2 text-gray-500 text-[9px] sm:text-[10px] mb-2">
-            <span>← Swipe to explore →</span>
-          </div>
+          <motion.div 
+            className="flex sm:hidden justify-center items-center gap-2 text-gray-500 text-[9px] sm:text-[10px] mb-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <motion.span
+              animate={{ x: [-3, 3, -3] }}
+              transition={{ duration: 1.5, repeat: 3, ease: "easeInOut" }}
+            >
+              ←
+            </motion.span>
+            <span>Swipe or tap cards</span>
+            <motion.span
+              animate={{ x: [3, -3, 3] }}
+              transition={{ duration: 1.5, repeat: 3, ease: "easeInOut" }}
+            >
+              →
+            </motion.span>
+          </motion.div>
 
           {/* Pagination Dots */}
           <div className="flex justify-center gap-1 sm:gap-1.5 md:gap-2 mt-1.5 sm:mt-2 md:mt-3">

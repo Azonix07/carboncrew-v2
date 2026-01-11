@@ -5,6 +5,97 @@
 @tailwind utilities;
 
 /* ========================================
+   PERFORMANCE OPTIMIZATIONS
+======================================== */
+/* GPU acceleration for animated elements */
+.star-twinkle {
+  animation: twinkle 4s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+}
+
+/* Status pulse animation - CSS is more performant than JS */
+.status-pulse {
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 0px rgba(251,113,133,0.5);
+  }
+  50% { 
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(251,113,133,0.8);
+  }
+}
+
+/* Arrow bounce animation */
+.arrow-bounce {
+  animation: arrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+/* Emoji rotate animation */
+.emoji-rotate {
+  display: inline-block;
+  animation: emojiRotate 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+@keyframes emojiRotate {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  75% { transform: rotate(-15deg); }
+}
+
+/* Arrow up bounce animation */
+.arrow-up-bounce {
+  animation: arrowUpBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes arrowUpBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .star-twinkle,
+  .status-pulse,
+  .arrow-bounce,
+  .emoji-rotate,
+  .arrow-up-bounce {
+    animation: none;
+  }
+  
+  .star-twinkle {
+    opacity: 0.5;
+  }
+  
+  .status-pulse {
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(251,113,133,0.6);
+  }
+}
+
+/* ========================================
    BASE STYLES
 ======================================== */
 @layer base {

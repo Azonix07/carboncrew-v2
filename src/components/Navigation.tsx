@@ -192,10 +192,10 @@ const Navigation: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 md:hidden overflow-hidden"
           >
             <div
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/70 backdrop-blur-md"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
@@ -203,33 +203,113 @@ const Navigation: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="absolute right-0 top-0 h-full w-64 sm:w-72 bg-[#030014]/95 backdrop-blur-xl border-l border-white/10 p-4 sm:p-6 pt-16 sm:pt-20"
+              className="absolute right-0 top-0 bottom-0 w-[70vw] max-w-[280px] bg-[#030014] border-l border-rose-500/20 flex flex-col overflow-hidden"
             >
-              <div className="flex flex-col gap-3 sm:gap-4">
-                {navLinks.map((link, index) => (
-                  <motion.button
-                    key={link.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    onClick={() => scrollToSection(link.id)}
-                    className={`text-left text-base sm:text-lg py-1.5 sm:py-2 border-b border-white/10 transition-colors ${
-                      activeSection === link.id ? 'text-rose-400' : 'text-gray-300 hover:text-rose-400'
-                    }`}
-                  >
-                    {link.name}
-                  </motion.button>
-                ))}
+              {/* Header with close button - solid background */}
+              <div className="flex items-center justify-between px-4 pt-4 pb-3 bg-[#030014] border-b border-white/5 flex-shrink-0">
+                {/* Logo */}
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center shadow-lg shadow-rose-500/20">
+                    <span className="text-white font-bold text-base">C</span>
+                  </div>
+                  <div>
+                    <span className="text-white font-bold text-sm">Carbon<span className="text-rose-400">Crew</span></span>
+                    <p className="text-[8px] text-gray-500 uppercase tracking-wider">Digital Studio</p>
+                  </div>
+                </div>
+                
+                {/* Close button */}
                 <motion.button
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.1 }}
-                  onClick={() => scrollToSection('contact')}
-                  className="mt-3 sm:mt-4 px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-rose-500 to-red-500 text-white rounded-full font-semibold text-sm sm:text-base text-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-rose-500/30 hover:bg-white/10 transition-all"
                 >
-                  Start Project
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                  </svg>
                 </motion.button>
               </div>
+              
+              {/* Navigation links - scrollable area */}
+              <div className="flex-1 overflow-y-auto py-4 px-3 bg-[#030014]">
+                <p className="text-[9px] uppercase tracking-wider text-gray-500 px-2 mb-3">Navigation</p>
+                <div className="flex flex-col gap-1">
+                  {navLinks.map((link, index) => (
+                    <motion.button
+                      key={link.id}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.15 + index * 0.05 }}
+                      onClick={() => scrollToSection(link.id)}
+                      className={`relative flex items-center gap-3 text-left px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                        activeSection === link.id 
+                          ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400' 
+                          : 'text-gray-300 hover:bg-white/5 hover:text-white border border-transparent'
+                      }`}
+                    >
+                      {/* Active indicator */}
+                      {activeSection === link.id && (
+                        <motion.div 
+                          layoutId="mobileActiveIndicator"
+                          className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-gradient-to-b from-rose-500 to-red-500 rounded-r-full"
+                        />
+                      )}
+                      {/* SVG Icon for each link */}
+                      <span className={`w-5 h-5 ${activeSection === link.id ? 'text-rose-400' : 'text-gray-500'}`}>
+                        {link.id === 'hero' && (
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                          </svg>
+                        )}
+                        {link.id === 'services' && (
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                          </svg>
+                        )}
+                        {link.id === 'why' && (
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                          </svg>
+                        )}
+                        {link.id === 'projects' && (
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                          </svg>
+                        )}
+                        {link.id === 'contact' && (
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                          </svg>
+                        )}
+                      </span>
+                      <span className="font-medium text-sm">{link.name}</span>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+              
+              {/* CTA Button - fixed at bottom */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="flex-shrink-0 p-4 pt-3 bg-[#030014] border-t border-white/5"
+              >
+                <motion.button
+                  onClick={() => scrollToSection('contact')}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-3 bg-gradient-to-r from-rose-500 to-red-500 text-white rounded-lg font-semibold text-sm shadow-lg shadow-rose-500/25 flex items-center justify-center gap-2"
+                >
+                  <span>Start Your Project</span>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                  </svg>
+                </motion.button>
+                <p className="text-center text-[9px] text-gray-500 mt-2">Let's build something amazing</p>
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
