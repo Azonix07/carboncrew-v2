@@ -1,169 +1,189 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { TypeAnimation } from 'react-type-animation';
 
 const Hero: React.FC = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const scrollToServices = () => {
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Dark background with subtle gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950" />
-      
-      {/* Subtle animated grid */}
+    <section className="relative w-full h-full flex-1 overflow-hidden">
+      {/* Subtle grid overlay */}
       <div 
         className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px'
+          backgroundImage: `
+            linear-gradient(rgba(225, 29, 72, 0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(225, 29, 72, 0.5) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
         }}
       />
       
-      {/* Ambient glow - subtle and clean */}
-      <div 
-        className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-cherry-600/6 rounded-full blur-[160px] pointer-events-none"
-      />
+      {/* Ambient glows - static for performance */}
+      <div className="absolute top-1/4 left-1/4 w-[300px] sm:w-[400px] lg:w-[500px] h-[300px] sm:h-[400px] lg:h-[500px] bg-rose-500/5 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none opacity-40" />
+      <div className="absolute bottom-1/3 right-1/4 w-[250px] sm:w-[300px] lg:w-[400px] h-[250px] sm:h-[300px] lg:h-[400px] bg-red-500/5 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none opacity-30" />
       
-      {/* Main content container */}
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="max-w-2xl lg:max-w-3xl">
-          
-          {/* Status badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-8"
+      {/* Main centered content - centered both horizontally and vertically */}
+      <div className="absolute inset-0 flex items-center justify-center z-20">
+        <div className="flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-4xl mx-auto">
+        
+          {/* Status Badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 30 }}
+          animate={isLoaded ? { opacity: 1, scale: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2, type: 'spring', stiffness: 100 }}
+          className="mb-3 sm:mb-4 lg:mb-6"
+        >
+          <motion.div 
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-rose-500/20 backdrop-blur-sm"
+            whileHover={{ scale: 1.05, borderColor: 'rgba(225, 29, 72, 0.5)' }}
           >
-            <div 
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full backdrop-blur-sm"
-              style={{
-                background: 'rgba(244, 63, 94, 0.08)',
-                border: '1px solid rgba(244, 63, 94, 0.2)',
-              }}
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cherry-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cherry-500"></span>
-              </span>
-              <span className="text-sm text-cherry-300/90 font-medium">Innovation Driven Studio</span>
-            </div>
+            <motion.div
+              animate={{ scale: [1, 1.3, 1], boxShadow: ['0 0 0px rgba(251,113,133,0.5)', '0 0 15px rgba(251,113,133,0.8)', '0 0 0px rgba(251,113,133,0.5)'] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-rose-400 rounded-full"
+            />
+            <span className="text-rose-300 text-xs sm:text-sm font-medium tracking-wide">
+              Ready to Build Your Vision
+            </span>
           </motion.div>
-          
-          {/* Headline - clean and impactful */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6"
+        </motion.div>
+
+        {/* Main Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 50 }}
+          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.4, type: 'spring', stiffness: 50 }}
+          className="font-display font-bold text-white leading-[0.95] tracking-tight mb-3 sm:mb-4 lg:mb-6"
+          style={{ fontSize: 'clamp(2rem, 8vw, 6rem)' }}
+        >
+          <motion.span 
+            className="block"
+            initial={{ opacity: 0, x: -50 }}
+            animate={isLoaded ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05]">
-              <span className="text-white">Building</span>
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cherry-400 via-cherry-500 to-rose-500">
-                Digital Excellence
-              </span>
-            </h1>
-          </motion.div>
-          
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="text-lg md:text-xl text-gray-400 mb-10 max-w-lg leading-relaxed"
+            We Build
+          </motion.span>
+          <motion.span 
+            className="block mt-0.5 sm:mt-1 lg:mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-red-400 to-rose-300"
+            initial={{ opacity: 0, x: 50 }}
+            animate={isLoaded ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.7 }}
           >
-            We transform innovative ideas into exceptional digital experiences. 
-            Your vision, our expertise.
-          </motion.p>
-          
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
+            <TypeAnimation
+              sequence={[
+                'Digital Dreams',
+                2500,
+                'Stunning Apps',
+                2500,
+                'Future Tech',
+                2500,
+                'Your Vision',
+                2500,
+              ]}
+              wrapper="span"
+              speed={40}
+              repeat={Infinity}
+            />
+          </motion.span>
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p
+          initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+          animate={isLoaded ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="text-gray-400 max-w-xl mx-auto mb-6 sm:mb-8 leading-relaxed font-light"
+          style={{ fontSize: 'clamp(0.9rem, 2vw, 1.125rem)' }}
+        >
+          A fresh digital studio bringing your ideas to life with 
+          <span className="text-rose-400"> modern technology</span> and 
+          <span className="text-red-400"> creative solutions</span>.
+        </motion.p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 1.1, type: 'spring', stiffness: 80 }}
+          className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto"
+        >
+          <motion.button
+            onClick={scrollToServices}
+            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(225, 29, 72, 0.4)' }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative w-full sm:w-auto px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-rose-500 to-red-500 rounded-full font-semibold text-white overflow-hidden text-sm sm:text-base"
           >
-            <motion.a
-              href="#contact"
-              className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-semibold text-white"
-              style={{
-                background: 'linear-gradient(135deg, #E11D48 0%, #BE123C 100%)',
-                boxShadow: '0 4px 20px rgba(225, 29, 72, 0.25)',
-              }}
-              whileHover={{ 
-                scale: 1.02, 
-                boxShadow: '0 8px 30px rgba(225, 29, 72, 0.35)' 
-              }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-            >
-              Start Your Project
-              <svg className="w-4.5 h-4.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </motion.a>
-            
-            <motion.a
-              href="#projects"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-gray-300 backdrop-blur-sm transition-colors"
-              style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-              }}
-              whileHover={{ 
-                scale: 1.02,
-                background: 'rgba(255, 255, 255, 0.06)',
-                borderColor: 'rgba(244, 63, 94, 0.25)',
-              }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-            >
-              View Our Work
-            </motion.a>
-          </motion.div>
-          
-          {/* Stats - clean minimal cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-wrap gap-8 md:gap-12"
-          >
-            {[
-              { value: '50+', label: 'Projects' },
-              { value: '98%', label: 'Satisfaction' },
-              { value: '5+', label: 'Years' },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                className="group"
-                whileHover={{ y: -2 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              Explore Our Work
+              <motion.svg
+                className="w-4 h-4 sm:w-5 sm:h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
               >
-                <div className="text-3xl md:text-4xl font-bold text-cherry-400 group-hover:text-cherry-300 transition-colors">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-500 mt-1">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </motion.svg>
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-red-500 to-rose-500"
+              initial={{ x: '100%' }}
+              whileHover={{ x: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+          </motion.button>
+          
+          <motion.button
+            onClick={() => {
+              const contactSection = document.getElementById('contact');
+              if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full sm:w-auto px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-4 rounded-full font-semibold text-white border border-white/20 hover:border-rose-500/50 hover:bg-white/5 transition-all duration-300 text-sm sm:text-base"
+          >
+            Get in Touch
+          </motion.button>
+        </motion.div>
         </div>
       </div>
-      
-      {/* Scroll indicator */}
+
+      {/* Scroll Indicator - fixed at bottom of screen */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block"
+        animate={isLoaded ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 1.2 }}
+        className="absolute bottom-5 left-1/2 -translate-x-1/2 z-30"
       >
         <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2 text-gray-500"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-1.5 sm:gap-2 cursor-pointer"
+          onClick={scrollToServices}
         >
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
+          <span className="text-gray-500 text-[10px] sm:text-xs uppercase tracking-widest">Scroll</span>
+          <div className="w-5 h-8 sm:w-6 sm:h-10 rounded-full border-2 border-gray-600 flex justify-center p-1.5 sm:p-2">
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-rose-400 rounded-full"
+            />
+          </div>
         </motion.div>
       </motion.div>
     </section>

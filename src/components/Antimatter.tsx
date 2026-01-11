@@ -1,21 +1,24 @@
 import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+interface AntimatterProps {
+  currentSection: number;
+}
 
 interface ShapeConfig {
   name: string;
   getPosition: (index: number, total: number, radius: number) => { x: number; y: number; z: number };
 }
 
+// Clean, recognizable 3D shapes for the particle animation
 const SHAPES: Record<string, ShapeConfig> = {
-  // Perfect Sphere - clean and elegant for home
+  // Sphere - Classic elegant shape (default for Hero)
   sphere: {
     name: 'sphere',
     getPosition: (index, total, radius) => {
-      const r = radius * 0.85;
-      // Fibonacci sphere for perfect distribution
+      const r = radius * 0.9;
       const phi = Math.acos(1 - 2 * (index / total));
       const theta = Math.PI * (1 + Math.sqrt(5)) * index;
-      
       return {
         x: r * Math.sin(phi) * Math.cos(theta),
         y: r * Math.cos(phi),
@@ -24,215 +27,156 @@ const SHAPES: Record<string, ShapeConfig> = {
     },
   },
   
-  // Lightbulb - for services/ideas
-  bulb: {
-    name: 'bulb',
+  // Cube - Solid, structured (Web Development)
+  cube: {
+    name: 'cube',
+    getPosition: (index, total, radius) => {
+      const r = radius * 0.65;
+      const particlesPerFace = Math.ceil(total / 6);
+      const face = Math.floor(index / particlesPerFace);
+      const localIndex = index % particlesPerFace;
+      const gridSize = Math.ceil(Math.sqrt(particlesPerFace));
+      const u = ((localIndex % gridSize) / (gridSize - 1) - 0.5) * 2;
+      const v = (Math.floor(localIndex / gridSize) / (gridSize - 1) - 0.5) * 2;
+      
+      switch (face % 6) {
+        case 0: return { x: r, y: u * r, z: v * r };
+        case 1: return { x: -r, y: u * r, z: v * r };
+        case 2: return { x: u * r, y: r, z: v * r };
+        case 3: return { x: u * r, y: -r, z: v * r };
+        case 4: return { x: u * r, y: v * r, z: r };
+        default: return { x: u * r, y: v * r, z: -r };
+      }
+    },
+  },
+  
+  // Torus/Ring - Connectivity (Mobile Apps)
+  torus: {
+    name: 'torus',
+    getPosition: (index, total, radius) => {
+      const R = radius * 0.6;  // Major radius
+      const rr = radius * 0.25; // Minor radius
+      const u = (index % 40) / 40 * Math.PI * 2;
+      const v = Math.floor(index / 40) / Math.ceil(total / 40) * Math.PI * 2;
+      
+      return {
+        x: (R + rr * Math.cos(v)) * Math.cos(u),
+        y: rr * Math.sin(v),
+        z: (R + rr * Math.cos(v)) * Math.sin(u),
+      };
+    },
+  },
+  
+  // Diamond - Premium quality (UI/UX Design)
+  diamond: {
+    name: 'diamond',
     getPosition: (index, total, radius) => {
       const t = index / total;
-      const r = radius;
+      const r = radius * 0.85;
       
-      if (t < 0.7) {
-        // Spherical bulb top
-        const localT = t / 0.7;
-        const phi = Math.acos(1 - 2 * localT);
-        const theta = Math.PI * (1 + Math.sqrt(5)) * index;
-        const bulbR = r * 0.72;
+      if (t < 0.5) {
+        // Top pyramid
+        const localT = t / 0.5;
+        const angle = localT * Math.PI * 2 * 6;
+        const height = (1 - localT) * r * 0.8;
+        const ringR = localT * r * 0.7;
         return {
-          x: bulbR * Math.sin(phi) * Math.cos(theta),
-          y: -r * 0.15 + bulbR * Math.cos(phi) * 0.75,
-          z: bulbR * Math.sin(phi) * Math.sin(theta),
+          x: ringR * Math.cos(angle),
+          y: -height,
+          z: ringR * Math.sin(angle),
         };
       } else {
-        // Base screw part
-        const localT = (t - 0.7) / 0.3;
-        const angle = localT * Math.PI * 14;
-        const baseR = r * 0.22 * (1 - localT * 0.35);
+        // Bottom point
+        const localT = (t - 0.5) / 0.5;
+        const angle = localT * Math.PI * 2 * 4;
+        const height = localT * r * 0.9;
+        const ringR = (1 - localT) * r * 0.7;
         return {
-          x: baseR * Math.cos(angle),
-          y: r * 0.45 + localT * r * 0.38,
-          z: baseR * Math.sin(angle),
+          x: ringR * Math.cos(angle),
+          y: height,
+          z: ringR * Math.sin(angle),
         };
       }
     },
   },
   
-  // Thick C Logo - bold and recognizable
-  cLogo: {
-    name: 'cLogo',
+  // Helix/DNA - Innovation (Automation)
+  helix: {
+    name: 'helix',
     getPosition: (index, total, radius) => {
       const t = index / total;
       const r = radius;
+      const turns = 3;
+      const angle = t * Math.PI * 2 * turns;
+      const strand = index % 2;
+      const helixR = r * 0.5;
+      const height = (t - 0.5) * r * 1.8;
       
-      if (t < 0.85) {
-        // The C shape - thicker distribution
-        const localT = t / 0.85;
-        const startAngle = Math.PI * 0.3;
-        const endAngle = Math.PI * 1.7;
-        const angle = startAngle + localT * (endAngle - startAngle);
-        
-        // Create thick C by varying radius in layers
-        const layer = Math.floor((index % 5)) / 5; // 5 layers for thickness
-        const thickness = r * 0.28; // Thicker C
-        const baseR = r * 0.55;
-        const radiusVar = baseR + (layer - 0.5) * thickness;
-        
-        // Add depth variation for 3D feel
-        const zLayer = (layer - 0.5) * r * 0.25;
-        
+      return {
+        x: helixR * Math.cos(angle + strand * Math.PI),
+        y: height,
+        z: helixR * Math.sin(angle + strand * Math.PI),
+      };
+    },
+  },
+  
+  // Octahedron - Precision (E-Commerce)
+  octahedron: {
+    name: 'octahedron',
+    getPosition: (index, total, radius) => {
+      const t = index / total;
+      const r = radius * 0.8;
+      
+      if (t < 0.5) {
+        // Top half
+        const localT = t / 0.5;
+        const angle = localT * Math.PI * 2 * 6;
+        const height = (1 - localT * 2) * r;
+        const ringR = Math.sin(localT * Math.PI) * r * 0.75;
         return {
-          x: radiusVar * Math.cos(angle),
-          y: radiusVar * Math.sin(angle),
-          z: zLayer,
+          x: ringR * Math.cos(angle),
+          y: -height,
+          z: ringR * Math.sin(angle),
         };
       } else {
-        // The dot - sphere
-        const localT = (t - 0.85) / 0.15;
-        const phi = Math.acos(1 - 2 * localT);
-        const theta = Math.PI * (1 + Math.sqrt(5)) * (index - total * 0.85);
-        const dotR = r * 0.15;
-        const dotX = r * 0.42;
-        const dotY = -r * 0.05;
-        
+        // Bottom half
+        const localT = (t - 0.5) / 0.5;
+        const angle = localT * Math.PI * 2 * 6;
+        const height = (localT * 2 - 1) * r;
+        const ringR = Math.sin((1 - localT) * Math.PI) * r * 0.75;
         return {
-          x: dotX + dotR * Math.sin(phi) * Math.cos(theta),
-          y: dotY + dotR * Math.cos(phi),
-          z: dotR * Math.sin(phi) * Math.sin(theta),
+          x: ringR * Math.cos(angle),
+          y: height,
+          z: ringR * Math.sin(angle),
         };
       }
     },
   },
   
-  // Rocket - sleek design
-  rocket: {
-    name: 'rocket',
+  // Spiral Galaxy - Infinite scale (Cloud Solutions)
+  galaxy: {
+    name: 'galaxy',
     getPosition: (index, total, radius) => {
       const t = index / total;
       const r = radius;
+      const arms = 3;
+      const armOffset = (index % arms) * (Math.PI * 2 / arms);
+      const spiralT = t * 3;
+      const spiralR = spiralT * r * 0.3;
+      const angle = spiralT * Math.PI * 2 + armOffset;
+      const wobble = Math.sin(t * Math.PI * 8) * r * 0.05;
       
-      if (t < 0.28) {
-        // Nose cone
-        const localT = t / 0.28;
-        const angle = localT * Math.PI * 10;
-        const coneR = localT * r * 0.24;
-        return {
-          x: coneR * Math.cos(angle),
-          y: -r * 0.85 + localT * r * 0.32,
-          z: coneR * Math.sin(angle),
-        };
-      } else if (t < 0.62) {
-        // Body cylinder
-        const localT = (t - 0.28) / 0.34;
-        const angle = localT * Math.PI * 12;
-        const bodyR = r * 0.24;
-        return {
-          x: bodyR * Math.cos(angle),
-          y: -r * 0.53 + localT * r * 0.85,
-          z: bodyR * Math.sin(angle),
-        };
-      } else if (t < 0.78) {
-        // Window circle
-        const localT = (t - 0.62) / 0.16;
-        const angle = localT * Math.PI * 2;
-        const windowR = r * 0.09;
-        return {
-          x: windowR * Math.cos(angle),
-          y: -r * 0.32 + windowR * Math.sin(angle) * 0.5,
-          z: r * 0.25,
-        };
-      } else {
-        // 3 Fins
-        const localT = (t - 0.78) / 0.22;
-        const finIdx = Math.floor(localT * 3);
-        const finT = (localT * 3) % 1;
-        const baseAngle = (finIdx / 3) * Math.PI * 2;
-        const finR = r * 0.24 + finT * r * 0.28;
-        const finY = r * 0.08 + finT * r * 0.38;
-        return {
-          x: finR * Math.cos(baseAngle),
-          y: finY,
-          z: finR * Math.sin(baseAngle),
-        };
-      }
-    },
-  },
-  
-  // Chat bubble - WhatsApp style speech bubble
-  message: {
-    name: 'message',
-    getPosition: (index, total, radius) => {
-      const t = index / total;
-      const r = radius;
-      
-      if (t < 0.85) {
-        // Main bubble - rounded speech bubble shape
-        const localT = t / 0.85;
-        const angle = localT * Math.PI * 2;
-        
-        // Create a rounded bubble shape (like WhatsApp)
-        // Use parametric equation for a smoother bubble
-        const baseRadius = r * 0.7;
-        
-        // Make it slightly wider than tall
-        const xScale = 1.15;
-        const yScale = 0.85;
-        
-        // Add slight squircle effect for rounded corners
-        const squircle = Math.pow(Math.abs(Math.cos(angle)), 0.3) + Math.pow(Math.abs(Math.sin(angle)), 0.3);
-        const radiusMod = baseRadius / Math.pow(squircle, 0.5);
-        
-        // Add layers for 3D depth
-        const layer = (index % 5) / 5;
-        const zOffset = (layer - 0.5) * r * 0.35;
-        const layerScale = 0.85 + layer * 0.3;
-        
-        return {
-          x: Math.cos(angle) * radiusMod * xScale * layerScale,
-          y: Math.sin(angle) * radiusMod * yScale * layerScale - r * 0.05,
-          z: zOffset,
-        };
-      } else {
-        // Tail/pointer at bottom-left (like WhatsApp bubble tail)
-        const localT = (t - 0.85) / 0.15;
-        
-        // Create a triangular tail pointing down-left
-        const tailProgress = localT;
-        const layer = (index % 4) / 4;
-        
-        // Tail starts from bottom-left of bubble and points down
-        const startX = -r * 0.55;
-        const startY = r * 0.35;
-        const endX = -r * 0.75;
-        const endY = r * 0.7;
-        
-        // Interpolate along tail with some spread
-        const spread = (1 - tailProgress) * r * 0.18;
-        
-        return {
-          x: startX + (endX - startX) * tailProgress + (layer - 0.5) * spread,
-          y: startY + (endY - startY) * tailProgress,
-          z: (layer - 0.5) * r * 0.12,
-        };
-      }
+      return {
+        x: spiralR * Math.cos(angle) + wobble,
+        y: (Math.random() - 0.5) * r * 0.15,
+        z: spiralR * Math.sin(angle) + wobble,
+      };
     },
   },
 };
 
-// Updated section shapes: home=sphere, services=bulb, why=cLogo, projects=rocket, contact=message
-const SECTION_SHAPES: Record<string, string> = {
-  home: 'sphere',
-  services: 'bulb',
-  why: 'cLogo',
-  projects: 'rocket',
-  contact: 'message',
-};
-
-const SECTION_POSITIONS: Record<string, 'left' | 'right'> = {
-  home: 'right',
-  services: 'left',
-  why: 'right',
-  projects: 'left',
-  contact: 'right',
-};
+// Shape sequence for morphing animation
+const SHAPE_SEQUENCE = ['sphere', 'cube', 'torus', 'diamond', 'helix', 'octahedron', 'galaxy'];
 
 interface Particle {
   id: number;
@@ -251,31 +195,74 @@ interface Particle {
   orbitOffset: number;
 }
 
+// Cherry/Red theme colors
 const CHERRY_COLORS = [
-  { h: 346, s: 84, l: 50 },
-  { h: 350, s: 89, l: 60 },
-  { h: 353, s: 96, l: 72 },
-  { h: 355, s: 100, l: 82 },
-  { h: 340, s: 82, l: 58 },
+  { h: 350, s: 90, l: 55 },  // Cherry red
+  { h: 0, s: 85, l: 60 },    // Bright red
+  { h: 340, s: 80, l: 65 },  // Rose
+  { h: 10, s: 90, l: 50 },   // Crimson
+  { h: 355, s: 85, l: 70 },  // Soft pink-red
+  { h: 330, s: 75, l: 55 },  // Magenta-red
 ];
 
-const Antimatter: React.FC = () => {
+const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
   const rotationRef = useRef({ x: 0, y: 0 });
-  const mouseRef = useRef({ x: 0, y: 0, isHovering: false });
+  const mouseRef = useRef({ 
+    x: 0, 
+    y: 0, 
+    prevX: 0, 
+    prevY: 0, 
+    velocityX: 0, 
+    velocityY: 0, 
+    isHovering: false,
+    isMoving: false,
+    lastMoveTime: 0
+  });
   const scatterRef = useRef(0);
   const timeRef = useRef(0);
   const currentShapeRef = useRef('sphere');
+  const shapeIndexRef = useRef(0);
   
-  const [currentSection, setCurrentSection] = useState('home');
   const [isMobile, setIsMobile] = useState(false);
-  const [position, setPosition] = useState<'left' | 'right'>('right');
+  const [scrollProgress, setScrollProgress] = useState(0);
+  
+  // Track scroll progress for smooth position interpolation and visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollContainer = document.querySelector('.scroll-snap-container');
+      if (scrollContainer) {
+        const scrollTop = scrollContainer.scrollTop;
+        const viewportHeight = window.innerHeight;
+        // Calculate progress: 0 at top, 1 at section 1, 2 at section 2, etc.
+        const progress = scrollTop / viewportHeight;
+        setScrollProgress(progress);
+      }
+    };
+    
+    const scrollContainer = document.querySelector('.scroll-snap-container');
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll(); // Initial call
+    }
+    
+    return () => {
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+  
+  // Visibility based on scroll progress - visible on first 2 pages (Hero and Services)
+  // Fade starts at 1.5 (halfway to 3rd page) and completes at 2.0
+  const isVisible = scrollProgress < 2;
+  const fadeOpacity = scrollProgress < 1.5 ? 1 : Math.max(0, 1 - (scrollProgress - 1.5) * 2);
   
   const PARTICLE_COUNT = useMemo(() => isMobile ? 200 : 350, [isMobile]);
-  const BASE_RADIUS = useMemo(() => isMobile ? 85 : 125, [isMobile]);
-  const CANVAS_SIZE = useMemo(() => isMobile ? 340 : 550, [isMobile]);
+  const BASE_RADIUS = useMemo(() => isMobile ? 120 : 170, [isMobile]);
+  const CANVAS_SIZE = useMemo(() => isMobile ? 450 : 720, [isMobile]);
   
   const initializeParticles = useCallback((shape: string) => {
     const shapeConfig = SHAPES[shape] || SHAPES.sphere;
@@ -287,17 +274,17 @@ const Antimatter: React.FC = () => {
       
       particles.push({
         id: i,
-        currentX: pos.x + (Math.random() - 0.5) * 60,
-        currentY: pos.y + (Math.random() - 0.5) * 60,
-        currentZ: pos.z + (Math.random() - 0.5) * 60,
+        currentX: (Math.random() - 0.5) * 100,
+        currentY: (Math.random() - 0.5) * 100,
+        currentZ: (Math.random() - 0.5) * 100,
         targetX: pos.x,
         targetY: pos.y,
         targetZ: pos.z,
         velocityX: 0,
         velocityY: 0,
         velocityZ: 0,
-        size: 1.8 + Math.random() * 1.4,
-        baseOpacity: 0.75 + Math.random() * 0.25,
+        size: 1.5 + Math.random() * 1.8,
+        baseOpacity: 0.7 + Math.random() * 0.3,
         colorIndex,
         orbitOffset: Math.random() * Math.PI * 2,
       });
@@ -322,32 +309,30 @@ const Antimatter: React.FC = () => {
     currentShapeRef.current = shape;
   }, [PARTICLE_COUNT, BASE_RADIUS]);
   
+  // Auto-morph shapes only on page 2 (Services)
+  // Page 1 (Hero) stays as sphere with rotation only
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['home', 'services', 'why', 'projects', 'contact'];
-      const scrollY = window.scrollY + window.innerHeight * 0.45;
-      
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const offsetTop = el.offsetTop;
-          const offsetHeight = el.offsetHeight;
-          if (scrollY >= offsetTop && scrollY < offsetTop + offsetHeight) {
-            if (currentSection !== sectionId) {
-              setCurrentSection(sectionId);
-              morphToShape(SECTION_SHAPES[sectionId] || 'sphere');
-              setPosition(SECTION_POSITIONS[sectionId] || 'right');
-            }
-            break;
-          }
-        }
-      }
-    };
+    if (!isVisible) return;
     
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [currentSection, morphToShape]);
+    // On Hero page (section 0), always stay as sphere
+    if (currentSection === 0) {
+      if (currentShapeRef.current !== 'sphere') {
+        morphToShape('sphere');
+        shapeIndexRef.current = 0;
+      }
+      return;
+    }
+    
+    // On Services page (section 1), enable morphing
+    if (currentSection === 1) {
+      const morphInterval = setInterval(() => {
+        shapeIndexRef.current = (shapeIndexRef.current + 1) % SHAPE_SEQUENCE.length;
+        morphToShape(SHAPE_SEQUENCE[shapeIndexRef.current]);
+      }, 2500); // Slightly slower for smoother experience
+      
+      return () => clearInterval(morphInterval);
+    }
+  }, [isVisible, currentSection, morphToShape]);
   
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -360,28 +345,32 @@ const Antimatter: React.FC = () => {
     initializeParticles('sphere');
   }, [initializeParticles]);
   
-  useEffect(() => {
+  // Mouse event handlers - defined outside useEffect for stability
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     
-    const handleMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseRef.current.x = e.clientX - rect.left - rect.width / 2;
-      mouseRef.current.y = e.clientY - rect.top - rect.height / 2;
-    };
+    const rect = canvas.getBoundingClientRect();
+    const newX = e.clientX - rect.left - rect.width / 2;
+    const newY = e.clientY - rect.top - rect.height / 2;
     
-    const handleEnter = () => { mouseRef.current.isHovering = true; };
-    const handleLeave = () => { mouseRef.current.isHovering = false; };
-    
-    canvas.addEventListener('mousemove', handleMove);
-    canvas.addEventListener('mouseenter', handleEnter);
-    canvas.addEventListener('mouseleave', handleLeave);
-    
-    return () => {
-      canvas.removeEventListener('mousemove', handleMove);
-      canvas.removeEventListener('mouseenter', handleEnter);
-      canvas.removeEventListener('mouseleave', handleLeave);
-    };
+    // Calculate mouse velocity for scatter effect
+    mouseRef.current.velocityX = newX - mouseRef.current.x;
+    mouseRef.current.velocityY = newY - mouseRef.current.y;
+    mouseRef.current.prevX = mouseRef.current.x;
+    mouseRef.current.prevY = mouseRef.current.y;
+    mouseRef.current.x = newX;
+    mouseRef.current.y = newY;
+    mouseRef.current.isHovering = true;
+    mouseRef.current.isMoving = true;
+    mouseRef.current.lastMoveTime = Date.now();
+  }, []);
+  
+  const handleMouseLeave = useCallback(() => {
+    mouseRef.current.isHovering = false;
+    mouseRef.current.isMoving = false;
+    mouseRef.current.velocityX = 0;
+    mouseRef.current.velocityY = 0;
   }, []);
   
   useEffect(() => {
@@ -404,22 +393,96 @@ const Antimatter: React.FC = () => {
       
       ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       
-      timeRef.current += 0.005;
+      timeRef.current += 0.008;
       
-      // Smooth slow rotation
-      rotationRef.current.y += 0.0025;
-      rotationRef.current.x = Math.sin(timeRef.current * 0.15) * 0.04;
+      // Check if mouse has stopped moving (for recovery)
+      const now = Date.now();
+      if (now - mouseRef.current.lastMoveTime > 100) {
+        mouseRef.current.isMoving = false;
+        // Gradually reduce velocity when mouse stops
+        mouseRef.current.velocityX *= 0.9;
+        mouseRef.current.velocityY *= 0.9;
+      }
       
-      // Very smooth scatter interpolation
-      const targetScatter = mouseRef.current.isHovering ? 1 : 0;
-      scatterRef.current += (targetScatter - scatterRef.current) * 0.04;
+      // Smooth rotation
+      rotationRef.current.y += 0.004;
+      rotationRef.current.x = Math.sin(timeRef.current * 0.2) * 0.05;
       
-      // Sort by Z for depth
+      // Scatter effect based on mouse activity
+      const targetScatter = mouseRef.current.isMoving ? 1 : 0;
+      scatterRef.current += (targetScatter - scatterRef.current) * 0.1;
+      
+      // Pre-calculate rotation values
+      const cosY = Math.cos(rotationRef.current.y);
+      const sinY = Math.sin(rotationRef.current.y);
+      const cosX = Math.cos(rotationRef.current.x);
+      const sinX = Math.sin(rotationRef.current.x);
+      const time = timeRef.current;
+      const scatter = scatterRef.current;
+      const mouseX = mouseRef.current.x;
+      const mouseY = mouseRef.current.y;
+      const isHovering = mouseRef.current.isHovering;
+      const velX = mouseRef.current.velocityX;
+      const velY = mouseRef.current.velocityY;
+      
+      // Sort by Z for depth (less frequent sorting)
       const sorted = [...particlesRef.current].sort((a, b) => a.currentZ - b.currentZ);
       
       sorted.forEach((p) => {
-        // Smoother spring physics
-        const spring = 0.045;
+        // First, calculate projected screen position for scatter detection
+        const tempX = p.currentX;
+        const tempY = p.currentY;
+        const tempZ = p.currentZ;
+        
+        // Subtle orbit
+        const orbit = 1.2;
+        const orbitTime = time * 0.5 + p.orbitOffset;
+        const ox = Math.sin(orbitTime) * orbit;
+        const oy = Math.cos(orbitTime) * orbit;
+        
+        // 3D rotation for screen position
+        const rx = (tempX + ox) * cosY - tempZ * sinY;
+        const rz = (tempX + ox) * sinY + tempZ * cosY;
+        const ry = (tempY + oy) * cosX - rz * sinX;
+        const fz = (tempY + oy) * sinX + rz * cosX;
+        
+        // Perspective
+        const perspective = 450;
+        const scale = perspective / (perspective + fz);
+        const px = cx + rx * scale;
+        const py = cy + ry * scale;
+        
+        // SCATTER EFFECT - Apply BEFORE spring physics
+        if (isHovering) {
+          const particleScreenX = px - cx;
+          const particleScreenY = py - cy;
+          
+          const mdx = particleScreenX - mouseX;
+          const mdy = particleScreenY - mouseY;
+          const distSq = mdx * mdx + mdy * mdy;
+          
+          const scatterRadius = 100;
+          const scatterRadiusSq = scatterRadius * scatterRadius;
+          
+          if (distSq < scatterRadiusSq) {
+            const dist = Math.sqrt(distSq);
+            const intensity = Math.pow(1 - (dist / scatterRadius), 2);
+            const mouseSpeed = Math.sqrt(velX * velX + velY * velY);
+            
+            const angle = Math.atan2(mdy, mdx);
+            const baseForce = 15;
+            const speedMultiplier = Math.min(mouseSpeed * 3, 50);
+            const pushForce = intensity * (baseForce + speedMultiplier);
+            
+            // Directly push particle position away from mouse
+            p.currentX += Math.cos(angle) * pushForce;
+            p.currentY += Math.sin(angle) * pushForce;
+            p.currentZ += (p.orbitOffset - Math.PI) * pushForce * 0.3;
+          }
+        }
+        
+        // Spring physics - pull back to target
+        const spring = 0.06;
         const damping = 0.88;
         
         const dx = p.targetX - p.currentX;
@@ -434,71 +497,44 @@ const Antimatter: React.FC = () => {
         p.currentY += p.velocityY;
         p.currentZ += p.velocityZ;
         
-        // Gentle scatter on hover
-        let sx = 0, sy = 0, sz = 0;
-        if (scatterRef.current > 0.01) {
-          const mdx = p.currentX - mouseRef.current.x;
-          const mdy = p.currentY - mouseRef.current.y;
-          const dist = Math.sqrt(mdx * mdx + mdy * mdy) + 1;
-          const force = Math.min(70 / dist, 1.8) * scatterRef.current;
-          sx = (mdx / dist) * force * 35;
-          sy = (mdy / dist) * force * 35;
-          sz = (Math.random() - 0.5) * force * 20;
-        }
+        // Recalculate final position for rendering
+        const x = p.currentX;
+        const y = p.currentY;
+        const z = p.currentZ;
         
-        const x = p.currentX + sx;
-        const y = p.currentY + sy;
-        const z = p.currentZ + sz;
+        const finalRx = (x + ox) * cosY - z * sinY;
+        const finalRz = (x + ox) * sinY + z * cosY;
+        const finalRy = (y + oy) * cosX - finalRz * sinX;
+        const finalFz = (y + oy) * sinX + finalRz * cosX;
         
-        // Gentle orbit
-        const orbit = 1.2;
-        const ox = Math.sin(timeRef.current * 0.4 + p.orbitOffset) * orbit;
-        const oy = Math.cos(timeRef.current * 0.4 + p.orbitOffset) * orbit;
+        const finalScale = perspective / (perspective + finalFz);
+        const finalPx = cx + finalRx * finalScale;
+        const finalPy = cy + finalRy * finalScale;
         
-        // 3D rotation
-        const cosY = Math.cos(rotationRef.current.y);
-        const sinY = Math.sin(rotationRef.current.y);
-        const rx = (x + ox) * cosY - z * sinY;
-        const rz = (x + ox) * sinY + z * cosY;
+        // Depth effects
+        const depth = (finalFz + BASE_RADIUS) / (BASE_RADIUS * 2);
+        const clampedDepth = depth < 0 ? 0 : depth > 1 ? 1 : depth;
+        const size = p.size * finalScale * (0.5 + clampedDepth * 0.6);
+        const finalSize = size < 0.5 ? 0.5 : size;
+        const opacity = p.baseOpacity * (0.4 + clampedDepth * 0.6) * (1 - scatter * 0.15);
+        const finalOpacity = opacity < 0 ? 0 : opacity;
         
-        const cosX = Math.cos(rotationRef.current.x);
-        const sinX = Math.sin(rotationRef.current.x);
-        const ry = (y + oy) * cosX - rz * sinX;
-        const fz = (y + oy) * sinX + rz * cosX;
-        
-        // Perspective
-        const perspective = 420;
-        const scale = perspective / (perspective + fz);
-        const px = cx + rx * scale;
-        const py = cy + ry * scale;
-        
-        // Depth-based rendering
-        const depth = Math.max(0, Math.min(1, (fz + BASE_RADIUS) / (BASE_RADIUS * 2)));
-        const size = Math.max(0.5, p.size * scale * (0.55 + depth * 0.55));
-        const opacity = Math.max(0, p.baseOpacity * (0.45 + depth * 0.55) * (1 - scatterRef.current * 0.12));
-        
-        // Glow
-        const glowR = Math.max(1, size * 3.5);
-        const grad = ctx.createRadialGradient(px, py, 0, px, py, glowR);
-        
+        // Simple glow (no gradient for performance)
         const color = CHERRY_COLORS[p.colorIndex];
-        const hue = color.h + Math.sin(timeRef.current + p.id * 0.025) * 4;
+        const hue = color.h + Math.sin(time + p.id * 0.02) * 8;
         const sat = color.s;
-        const light = color.l + depth * 10;
+        const light = color.l + clampedDepth * 15;
         
-        grad.addColorStop(0, `hsla(${hue},${sat}%,${light + 12}%,${opacity})`);
-        grad.addColorStop(0.35, `hsla(${hue},${sat}%,${light}%,${opacity * 0.45})`);
-        grad.addColorStop(1, 'transparent');
-        
+        // Outer glow - simple filled circle
         ctx.beginPath();
-        ctx.arc(px, py, glowR, 0, Math.PI * 2);
-        ctx.fillStyle = grad;
+        ctx.arc(finalPx, finalPy, finalSize * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${hue},${sat}%,${light}%,${finalOpacity * 0.25})`;
         ctx.fill();
         
-        // Core
+        // Core particle
         ctx.beginPath();
-        ctx.arc(px, py, size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${hue},100%,90%,${opacity})`;
+        ctx.arc(finalPx, finalPy, finalSize, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${hue},100%,90%,${finalOpacity})`;
         ctx.fill();
       });
       
@@ -512,47 +548,62 @@ const Antimatter: React.FC = () => {
     };
   }, [isMobile, BASE_RADIUS, CANVAS_SIZE]);
   
-  const posStyle = position === 'left' 
-    ? { left: '3%', right: 'auto' }
-    : { left: 'auto', right: '3%' };
+  // Smooth position interpolation based on scroll progress
+  // On desktop: moves from 50% (center) to 15% (left) as scroll progresses through first section
+  // On mobile: stays centered at 50%
+  const clampedProgress = Math.min(scrollProgress, 1); // Clamp position movement to first transition
+  const targetLeft = isMobile ? 50 : 50 - (clampedProgress * 35); // 50% to 15%
+  const targetScale = 1 - (clampedProgress * 0.25); // 1 to 0.75
   
   return (
-    <motion.div
-      className="fixed top-1/2 z-30 pointer-events-none hidden md:block"
-      initial={false}
-      animate={{
-        ...posStyle,
-        y: '-50%',
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 45,
-        damping: 22,
-        mass: 1.1,
-      }}
-    >
-      {/* Ambient glow */}
-      <div 
-        className="absolute inset-0 -m-20 rounded-full blur-3xl opacity-20"
-        style={{
-          background: 'radial-gradient(circle, rgba(244, 63, 94, 0.5) 0%, rgba(225, 29, 72, 0.25) 50%, transparent 70%)',
-        }}
-      />
-      
-      <motion.div
-        className="relative pointer-events-auto"
-        whileHover={{ scale: 1.02 }}
-        transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-      >
-        <canvas
-          ref={canvasRef}
-          className="cursor-pointer"
-          style={{
-            filter: 'drop-shadow(0 0 35px rgba(244, 63, 94, 0.35))',
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          key="antimatter-container"
+          className="fixed z-[5]"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ 
+            opacity: fadeOpacity, 
+            scale: targetScale,
+            left: `${targetLeft}%`,
+            top: '50%',
+            x: '-50%',
+            y: '-50%',
           }}
-        />
-      </motion.div>
-    </motion.div>
+          exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
+          transition={{
+            opacity: { type: 'tween', duration: 0.2, ease: 'easeOut' },
+            scale: { type: 'tween', duration: 0.1, ease: 'linear' },
+            left: { type: 'tween', duration: 0.1, ease: 'linear' },
+          }}
+        >
+          {/* Ambient glow */}
+          <motion.div 
+            className="absolute inset-0 -m-32 rounded-full blur-3xl pointer-events-none"
+            animate={{
+              opacity: [0.15, 0.25, 0.15],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 4, repeat: Infinity }}
+            style={{
+              background: 'radial-gradient(circle, rgba(225, 29, 72, 0.3) 0%, rgba(251, 113, 133, 0.15) 50%, transparent 70%)',
+            }}
+          />
+          
+          <div className="relative">
+            <canvas
+              ref={canvasRef}
+              className="cursor-pointer"
+              onMouseMove={(e) => handleMouseMove(e.nativeEvent)}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                filter: 'drop-shadow(0 0 40px rgba(225, 29, 72, 0.35))',
+              }}
+            />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

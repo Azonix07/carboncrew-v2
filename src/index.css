@@ -13,10 +13,10 @@
   }
   
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
   }
   
   body {
@@ -31,6 +31,73 @@
     overflow-x: hidden;
   }
   
+  /* Scroll snap container - mandatory for smooth page snapping */
+  .scroll-snap-container {
+    scroll-snap-type: y mandatory;
+    overflow-y: auto;
+    height: 100vh;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(225, 29, 72, 0.4) transparent;
+  }
+  
+  .scroll-snap-container::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .scroll-snap-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scroll-snap-container::-webkit-scrollbar-thumb {
+    background: rgba(225, 29, 72, 0.4);
+    border-radius: 2px;
+  }
+  
+  /* Scroll snap sections - exact viewport height */
+  .snap-section {
+    scroll-snap-align: start;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  /* Last section - footer page */
+  .snap-section:last-of-type {
+    scroll-snap-align: start;
+    height: 100vh;
+    height: 100dvh;
+  }
+  
+  /* First section - hero has no special treatment */
+  
+  /* Section transition effects */
+  .snap-section > * {
+    transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), 
+                opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  
+  /* Responsive snap section adjustments */
+  @media (max-height: 700px) {
+    .snap-section {
+      padding-top: 70px;
+      padding-bottom: 1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .snap-section {
+      padding-top: 70px;
+    }
+  }
+  
   ::selection {
     @apply bg-cherry-600 text-white;
   }
@@ -40,10 +107,25 @@
     @apply font-bold tracking-tight;
   }
   
-  /* Responsive Base Typography */
-  h1 { @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl; }
-  h2 { @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl; }
-  h3 { @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl; }
+  /* Responsive Base Typography - Fluid scaling */
+  h1 { 
+    font-size: clamp(1.75rem, 5vw + 1rem, 5rem);
+    line-height: 1.05;
+  }
+  h2 { 
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 3.5rem);
+    line-height: 1.1;
+  }
+  h3 { 
+    font-size: clamp(1.25rem, 3vw + 0.25rem, 2.5rem);
+    line-height: 1.2;
+  }
+  
+  /* Fluid body text */
+  p {
+    font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1.125rem);
+    line-height: 1.6;
+  }
 }
 
 /* ========================================
@@ -331,6 +413,123 @@
 @keyframes cursorBlink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(225, 29, 72, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(225, 29, 72, 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes revealSection {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Animation utility classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-reveal {
+  animation: revealSection 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slideInFromBottom 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.animate-slide-left {
+  animation: slideInFromRight 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.animate-slide-right {
+  animation: slideInFromLeft 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
 /* ========================================
