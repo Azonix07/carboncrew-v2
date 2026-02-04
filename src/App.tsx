@@ -158,7 +158,7 @@ const App: React.FC = () => {
         >
           <motion.span 
             className={`text-[10px] font-medium uppercase tracking-[0.2em] transition-all duration-300 opacity-0 group-hover:opacity-100 ${
-              currentSection === index ? 'text-rose-400' : 'text-gray-500'
+              currentSection === index ? 'text-slate-700' : 'text-slate-400'
             }`}
           >
             {section}
@@ -167,19 +167,19 @@ const App: React.FC = () => {
             className={`relative w-3 h-3 rounded-full transition-all duration-500 ${
               currentSection === index 
                 ? 'bg-transparent' 
-                : 'bg-gray-700/50 hover:bg-gray-600'
+                : 'bg-slate-200 hover:bg-slate-300'
             }`}
           >
             {currentSection === index && (
               <motion.div
                 layoutId="activeIndicator"
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-rose-400 to-red-500"
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-slate-600 to-slate-800"
                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
               />
             )}
             {currentSection === index && (
               <motion.div
-                className="absolute inset-0 rounded-full bg-rose-400"
+                className="absolute inset-0 rounded-full bg-slate-600"
                 animate={{ scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -192,15 +192,15 @@ const App: React.FC = () => {
 
   return (
     <SectionContext.Provider value={{ currentSection, setCurrentSection, scrollToSection, isScrollLocked, setScrollLocked }}>
-      <div className="min-h-screen font-sans antialiased overflow-hidden bg-[#030014]">
-        {/* Star field background */}
-        <div className="fixed inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(15,23,42,1)_0%,_rgba(3,0,20,1)_100%)]" />
-          {/* Animated stars - optimized with CSS animations for better performance */}
+      <div className="min-h-screen font-sans antialiased overflow-hidden bg-white text-slate-800" style={{ backgroundColor: '#ffffff', background: '#ffffff' }}>
+        {/* Star field background - subtle on white */}
+        <div className="fixed inset-0 z-0 pointer-events-none" style={{ backgroundColor: '#ffffff', background: '#ffffff' }}>
+          <div className="absolute inset-0 bg-white" />
+          {/* Animated stars - very subtle on light bg */}
           {!isLowEnd && stars.map((star) => (
             <div
               key={star.id}
-              className="absolute w-[2px] h-[2px] bg-white rounded-full star-twinkle"
+              className="absolute w-[2px] h-[2px] bg-slate-300 rounded-full star-twinkle"
               style={{
                 left: star.left,
                 top: star.top,
@@ -234,7 +234,7 @@ const App: React.FC = () => {
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-40 pointer-events-none"
                 style={{
-                  background: 'radial-gradient(circle at center, transparent 0%, rgba(3,0,20,0.3) 100%)',
+                  background: 'radial-gradient(circle at center, transparent 0%, rgba(200,200,200,0.1) 100%)',
                 }}
               />
             )}

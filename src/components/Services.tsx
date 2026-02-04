@@ -64,7 +64,7 @@ const services = [
     description: 'Custom websites and web apps built with cutting-edge technologies. From responsive landing pages to complex web platforms.',
     shortDesc: 'Modern web solutions',
     tags: ['React', 'Next.js', 'TypeScript', 'Node.js'],
-    gradient: 'from-rose-500 to-red-500',
+    gradient: 'from-rose-500 to-rose-600',
     accentColor: 'rose',
     features: ['Custom Development', 'API Integration', 'Performance Optimization', 'SEO Ready'],
     stats: { projects: 'New', satisfaction: '100%' },
@@ -75,8 +75,8 @@ const services = [
     description: 'Native and cross-platform mobile experiences that users love. iOS, Android, and hybrid solutions for any business need.',
     shortDesc: 'iOS & Android apps',
     tags: ['React Native', 'iOS', 'Android', 'Flutter'],
-    gradient: 'from-violet-500 to-purple-500',
-    accentColor: 'violet',
+    gradient: 'from-rose-500 to-rose-600',
+    accentColor: 'rose',
     features: ['Cross-Platform', 'Native Performance', 'App Store Ready', 'Offline Support'],
     stats: { projects: 'New', satisfaction: '100%' },
   },
@@ -86,8 +86,8 @@ const services = [
     description: 'Beautiful, intuitive designs that convert visitors into customers. User-centered design philosophy with modern aesthetics.',
     shortDesc: 'User-first design',
     tags: ['Figma', 'Prototyping', 'Design Systems'],
-    gradient: 'from-amber-500 to-orange-500',
-    accentColor: 'amber',
+    gradient: 'from-rose-400 to-rose-500',
+    accentColor: 'rose',
     features: ['User Research', 'Wireframing', 'Interactive Prototypes', 'Brand Identity'],
     stats: { projects: 'New', satisfaction: '100%' },
   },
@@ -97,8 +97,8 @@ const services = [
     description: 'Smart automation solutions to streamline your business operations and increase efficiency with custom workflows.',
     shortDesc: 'Smart automation',
     tags: ['Python', 'APIs', 'Workflows', 'Integration'],
-    gradient: 'from-emerald-500 to-teal-500',
-    accentColor: 'emerald',
+    gradient: 'from-rose-500 to-rose-600',
+    accentColor: 'rose',
     features: ['Process Automation', 'Custom Scripts', 'Data Processing', 'System Integration'],
     stats: { projects: '2', satisfaction: '100%' },
   },
@@ -108,8 +108,8 @@ const services = [
     description: 'Complete e-commerce solutions from online stores to booking systems. Get your business online with powerful platforms.',
     shortDesc: 'Online stores & booking',
     tags: ['Shopify', 'WooCommerce', 'Custom'],
-    gradient: 'from-sky-500 to-blue-500',
-    accentColor: 'sky',
+    gradient: 'from-rose-500 to-rose-600',
+    accentColor: 'rose',
     features: ['Online Stores', 'Payment Integration', 'Inventory Management', 'Booking Systems'],
     stats: { projects: '2', satisfaction: '100%' },
   },
@@ -119,7 +119,7 @@ const services = [
     description: 'Scalable infrastructure and deployment for your applications. Secure, reliable, and cost-effective cloud architecture.',
     shortDesc: 'Scalable infrastructure',
     tags: ['AWS', 'Docker', 'CI/CD', 'Deployment'],
-    gradient: 'from-rose-500 to-pink-500',
+    gradient: 'from-rose-500 to-rose-600',
     accentColor: 'rose',
     features: ['Cloud Hosting', 'Auto Scaling', 'Security', 'Monitoring'],
     stats: { projects: 'New', satisfaction: '100%' },
@@ -206,13 +206,13 @@ const Services: React.FC = () => {
     <section className="relative w-full h-full flex-1 flex items-center overflow-hidden pt-12 sm:pt-20 pb-4 sm:pb-6">
       {/* Static background - no animations */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 right-1/4 w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] bg-rose-500/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px] opacity-30" />
-        <div className="absolute bottom-1/4 left-1/3 w-[200px] sm:w-[350px] md:w-[400px] lg:w-[500px] xl:w-[600px] h-[200px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[600px] bg-red-500/5 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] lg:blur-[120px] opacity-20" />
+        <div className="absolute top-1/4 right-1/4 w-[250px] sm:w-[400px] md:w-[500px] lg:w-[600px] xl:w-[700px] h-[250px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] bg-slate-400/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px] opacity-30" />
+        <div className="absolute bottom-1/4 left-1/3 w-[200px] sm:w-[350px] md:w-[400px] lg:w-[500px] xl:w-[600px] h-[200px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[600px] bg-slate-500/5 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] lg:blur-[120px] opacity-20" />
       </div>
       
       {/* Top accent line - static */}
       <div className="absolute top-0 left-0 w-full h-px">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-rose-500/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-400/30 to-transparent" />
       </div>
       
       {/* Content - full width on mobile, positioned right on desktop */}
@@ -224,10 +224,10 @@ const Services: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={headerInView ? { opacity: 1, scale: 1, y: 0 } : {}}
             transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
-            className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 md:mb-4 bg-rose-500/10 border border-rose-500/20 text-rose-400"
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 md:mb-4 bg-rose-50 border border-rose-200 text-rose-600"
           >
             <motion.div 
-              className="w-1.5 h-1.5 rounded-full bg-rose-400"
+              className="w-1.5 h-1.5 rounded-full bg-rose-500"
               animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -238,16 +238,16 @@ const Services: React.FC = () => {
             initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
             animate={headerInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-1.5 sm:mb-2 md:mb-3"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-800 mb-1.5 sm:mb-2 md:mb-3"
           >
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-400">Services</span>
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-rose-600">Services</span>
           </motion.h2>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-md lg:max-w-xl mx-auto"
+            className="text-slate-500 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-md lg:max-w-xl mx-auto"
           >
             Comprehensive digital solutions tailored to transform your business
           </motion.p>
@@ -283,20 +283,21 @@ const Services: React.FC = () => {
               <div 
                 className="relative p-2 sm:p-2.5 md:p-3 lg:p-4 xl:p-5 rounded-lg sm:rounded-xl h-[180px] sm:h-[200px] md:h-[180px] lg:h-[210px] xl:h-[240px] 2xl:h-[260px] flex flex-col overflow-hidden"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  background: 'linear-gradient(135deg, rgba(255,241,242,0.95) 0%, rgba(254,226,226,0.95) 100%)',
+                  border: '1px solid rgba(244, 63, 94, 0.15)',
+                  boxShadow: '0 4px 6px -1px rgba(244, 63, 94, 0.08), 0 2px 4px -1px rgba(244, 63, 94, 0.04)'
                 }}
               >
                 {/* Large Background Icon - Bottom Right */}
-                <div className="absolute -right-4 -bottom-4 w-[70%] h-[70%] text-white/[0.04]">
+                <div className="absolute -right-4 -bottom-4 w-[70%] h-[70%] text-rose-500/[0.08]">
                   {icons[left.iconKey]}
                 </div>
                 
-                <h3 className="text-[8px] sm:text-[9px] md:text-xs lg:text-sm xl:text-base font-semibold text-white/70 mb-1 relative z-10 line-clamp-1">{left.title}</h3>
-                <p className="text-gray-500 text-[7px] sm:text-[8px] md:text-[10px] lg:text-[11px] xl:text-xs line-clamp-2 relative z-10 hidden sm:block">{left.shortDesc}</p>
+                <h3 className="text-[8px] sm:text-[9px] md:text-xs lg:text-sm xl:text-base font-semibold text-rose-700/80 mb-1 relative z-10 line-clamp-1">{left.title}</h3>
+                <p className="text-[6px] sm:text-[7px] md:text-[9px] lg:text-[10px] xl:text-xs text-rose-600/60 line-clamp-2 relative z-10">{left.shortDesc}</p>
                 <div className="mt-auto flex flex-wrap gap-1 relative z-10 hidden md:flex">
                   {left.tags.slice(0, 2).map((tag, i) => (
-                    <span key={i} className="text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] px-1 py-0.5 rounded bg-white/5 text-gray-600">{tag}</span>
+                    <span key={i} className="text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] px-1 py-0.5 rounded bg-rose-100 text-rose-600">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -305,7 +306,7 @@ const Services: React.FC = () => {
             {/* Center Card - Full width on mobile */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={`center-${center.title}`}
+                key={center.title}
                 className="w-full max-w-[260px] sm:max-w-[280px] md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-lg flex-shrink-0"
                 initial={{ opacity: 0, x: direction * 30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -315,58 +316,55 @@ const Services: React.FC = () => {
                 <div 
                   className="p-3 sm:p-4 md:p-4 lg:p-5 xl:p-6 2xl:p-7 rounded-2xl h-[240px] sm:h-[260px] md:h-[280px] lg:h-[320px] xl:h-[360px] 2xl:h-[400px] flex flex-col relative overflow-hidden"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                    border: '1px solid rgba(225, 29, 72, 0.3)',
-                    boxShadow: '0 20px 50px rgba(225, 29, 72, 0.12), 0 0 60px rgba(225, 29, 72, 0.06)',
+                    background: 'linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(248,250,252,1) 100%)',
+                    border: center.accentColor === 'rose' ? '1px solid rgba(244, 63, 94, 0.2)' : '1px solid rgba(100, 116, 139, 0.15)',
+                    boxShadow: center.accentColor === 'rose' 
+                      ? '0 20px 25px -5px rgba(244, 63, 94, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.03)'
+                      : '0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03)',
                   }}
                 >
-                  {/* Large Background Icon - Bottom Right */}
-                  <div className="absolute -right-4 -bottom-2 sm:-right-6 sm:-bottom-0 md:-right-8 md:bottom-2 w-[70%] h-[70%] sm:w-[65%] sm:h-[65%] text-rose-500/[0.08]">
-                    {icons[center.iconKey]}
-                  </div>
-                  
-                  <div className={`absolute inset-0 bg-gradient-to-br ${center.gradient} opacity-5`} />
-                  
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className="flex items-start justify-between mb-2 sm:mb-3">
-                      <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold text-white">{center.title}</h3>
-                      <div className="flex gap-1.5 sm:gap-2">
-                        <div className="text-center">
-                          <div className="text-rose-400 font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm xl:text-base">{center.stats.projects}</div>
-                          <div className="text-gray-500 text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs">Projects</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-rose-400 font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm xl:text-base">{center.stats.satisfaction}</div>
-                          <div className="text-gray-500 text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs">Happy</div>
-                        </div>
+                {/* Large Background Icon - Bottom Right */}
+                <div className={`absolute -right-4 -bottom-2 sm:-right-6 sm:-bottom-0 md:-right-8 md:bottom-2 w-[70%] h-[70%] sm:w-[65%] sm:h-[65%] ${center.accentColor === 'rose' ? 'text-rose-500/[0.08]' : 'text-slate-500/[0.08]'}`}>
+                  {icons[center.iconKey]}
+                </div>
+                
+                <div className={`absolute inset-0 bg-gradient-to-br ${center.gradient} opacity-5`} />
+                
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex items-start justify-between mb-2 sm:mb-3">
+                    <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold text-slate-800">{center.title}</h3>
+                    <div className="flex gap-1.5 sm:gap-2">
+                      <div className="text-center">
+                        <div className={`font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm xl:text-base ${center.accentColor === 'rose' ? 'text-rose-500' : 'text-slate-600'}`}>{center.stats.projects}</div>
+                        <div className="text-gray-500 text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs">Projects</div>
+                      </div>
+                      <div className="text-center">
+                        <div className={`font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm xl:text-base ${center.accentColor === 'rose' ? 'text-rose-500' : 'text-slate-600'}`}>{center.stats.satisfaction}</div>
+                        <div className="text-gray-500 text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px] xl:text-xs">Happy</div>
                       </div>
                     </div>
-                    
-                    <p className="text-gray-400 text-[10px] sm:text-[11px] md:text-xs lg:text-sm xl:text-base leading-relaxed mb-2 sm:mb-3 line-clamp-3">
-                      {center.description}
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-0.5 sm:gap-1 mb-2 sm:mb-3">
-                      {center.features.map((feature, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm text-gray-300"
-                        >
-                          <span className="text-rose-400 text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px]">✓</span>
-                          <span className="truncate">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <div className="mt-auto flex flex-wrap gap-0.5 sm:gap-1">
+                  </div>
+                  
+                  <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed mb-2 sm:mb-3 line-clamp-3">
+                    {center.description}
+                  </p>
+                  
+                  <div className="grid grid-cols-2 gap-0.5 sm:gap-1 mb-2 sm:mb-3">
+                    {center.features.map((feature, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs 2xl:text-sm text-slate-500"
+                      >
+                        <span className="text-rose-500 text-[7px] sm:text-[8px] md:text-[9px] lg:text-[10px]">✓</span>
+                        <span className="truncate">{feature}</span>
+                      </div>
+                    ))}
+                  </div>                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center mb-3 sm:mb-4 md:mb-5 lg:mb-6">
                       {center.tags.map((tag, i) => (
                         <span 
-                          key={i}
-                          className="px-1 sm:px-1.5 lg:px-2 py-0.5 rounded text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] xl:text-xs text-rose-300"
-                          style={{
-                            background: 'rgba(225, 29, 72, 0.1)',
-                            border: '1px solid rgba(225, 29, 72, 0.2)',
-                          }}
+                          key={i} 
+                          className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] md:text-xs font-medium ${center.accentColor === 'rose' ? 'bg-rose-50 text-rose-600 border border-rose-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}
                         >
                           {tag}
                         </span>
@@ -390,22 +388,23 @@ const Services: React.FC = () => {
               <div 
                 className="relative p-2 sm:p-2.5 md:p-3 lg:p-4 xl:p-5 rounded-lg sm:rounded-xl h-[200px] sm:h-[220px] md:h-[200px] lg:h-[250px] xl:h-[290px] 2xl:h-[320px] flex flex-col overflow-hidden"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  background: 'linear-gradient(135deg, rgba(255,241,242,0.95) 0%, rgba(254,226,226,0.95) 100%)',
+                  border: '1px solid rgba(244, 63, 94, 0.15)',
+                  boxShadow: '0 4px 6px -1px rgba(244, 63, 94, 0.08), 0 2px 4px -1px rgba(244, 63, 94, 0.04)'
                 }}
               >
                 {/* Large Background Icon - Bottom Right */}
-                <div className="absolute -right-4 -bottom-4 w-[65%] h-[65%] text-white/[0.05]">
+                <div className="absolute -right-4 -bottom-4 w-[65%] h-[65%] text-rose-500/[0.08]">
                   {icons[right.iconKey]}
                 </div>
                 
-                <h3 className="text-[8px] sm:text-[9px] md:text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold text-white/80 mb-1 relative z-10 line-clamp-1">{right.title}</h3>
-                <p className="text-gray-400 text-[7px] sm:text-[8px] md:text-[10px] lg:text-[11px] xl:text-xs line-clamp-2 mb-1 relative z-10 hidden sm:block">{right.shortDesc}</p>
+                <h3 className="text-[8px] sm:text-[9px] md:text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold text-rose-700/80 mb-1 relative z-10 line-clamp-1">{right.title}</h3>
+                <p className="text-[6px] sm:text-[7px] md:text-[9px] lg:text-[10px] xl:text-xs text-rose-600/60 line-clamp-2 relative z-10">{right.shortDesc}</p>
                 
                 <div className="space-y-0.5 mb-auto relative z-10 hidden md:block">
                   {right.features.slice(0, 3).map((feature, i) => (
-                    <div key={i} className="flex items-center gap-0.5 sm:gap-1 text-[8px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-xs text-gray-500">
-                      <span className="text-rose-500/50">•</span>
+                    <div key={i} className="flex items-center gap-0.5 sm:gap-1 text-[8px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-xs text-rose-600/70">
+                      <span className="text-rose-500">•</span>
                       <span className="truncate">{feature}</span>
                     </div>
                   ))}
@@ -413,7 +412,7 @@ const Services: React.FC = () => {
                 
                 <div className="flex flex-wrap gap-1 mt-1 relative z-10 hidden md:flex">
                   {right.tags.slice(0, 2).map((tag, i) => (
-                    <span key={i} className="text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] px-1 py-0.5 rounded bg-white/5 text-gray-500">{tag}</span>
+                    <span key={i} className="text-[7px] md:text-[8px] lg:text-[9px] xl:text-[10px] px-1 py-0.5 rounded bg-rose-100 text-rose-600">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -443,16 +442,16 @@ const Services: React.FC = () => {
           </motion.div>
 
           {/* Pagination Dots */}
-          <div className="flex justify-center gap-1 sm:gap-1.5 md:gap-2 mt-1.5 sm:mt-2 md:mt-3">
+          <div className="flex gap-1 sm:gap-1.5 md:gap-2 justify-center mt-3 sm:mt-4 md:mt-5 relative z-20">
             {services.map((_, i) => (
               <button
                 key={i}
-                onClick={() => {
-                  setDirection(i > currentIndex ? 1 : -1);
+                onClick={(e) => {
+                  e.stopPropagation();
                   setCurrentIndex(i);
                 }}
-                className={`h-1 sm:h-1.5 md:h-2 rounded-full transition-all duration-200 ${
-                  i === currentIndex ? 'bg-rose-500 w-3 sm:w-4 md:w-5' : 'bg-white/20 w-1 sm:w-1.5 md:w-2 hover:bg-white/40'
+                className={`h-1 sm:h-1.5 md:h-2 rounded-full transition-all duration-300 ${
+                  i === currentIndex ? 'bg-slate-600 w-3 sm:w-4 md:w-5' : 'bg-slate-200 w-1 sm:w-1.5 md:w-2 hover:bg-slate-300'
                 }`}
               />
             ))}

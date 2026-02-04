@@ -29,7 +29,7 @@ const technologies = [
         <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.251 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.572 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z"/>
       </svg>
     ),
-    color: '#ffffff',
+    color: '#000000',
   },
   {
     name: 'Node.js',
@@ -122,8 +122,8 @@ const WhyCarbonCrew: React.FC = () => {
     <section className="relative w-full h-full flex-1 flex flex-col justify-center overflow-hidden bg-transparent py-2 xs:py-4 sm:pt-24 sm:pb-6">
       {/* Background glow */}
       <div className="absolute inset-0 overflow-hidden z-[5] pointer-events-none">
-        <div className="absolute top-1/3 left-1/4 w-[300px] md:w-[400px] lg:w-[500px] h-[300px] md:h-[400px] lg:h-[500px] bg-rose-500/5 rounded-full blur-[100px] opacity-30" />
-        <div className="absolute bottom-1/4 right-1/4 w-[250px] md:w-[350px] lg:w-[400px] h-[250px] md:h-[350px] lg:h-[400px] bg-red-500/5 rounded-full blur-[80px] opacity-20" />
+        <div className="absolute top-1/3 left-1/4 w-[300px] md:w-[400px] lg:w-[500px] h-[300px] md:h-[400px] lg:h-[500px] bg-slate-400/5 rounded-full blur-[100px] opacity-30" />
+        <div className="absolute bottom-1/4 right-1/4 w-[250px] md:w-[350px] lg:w-[400px] h-[250px] md:h-[350px] lg:h-[400px] bg-slate-500/5 rounded-full blur-[80px] opacity-20" />
       </div>
       
       <div className="container mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 relative z-20">
@@ -134,10 +134,10 @@ const WhyCarbonCrew: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 md:mb-4 bg-rose-500/10 border border-rose-500/20 text-rose-400"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 md:mb-4 bg-rose-50 border border-rose-200 text-rose-600"
             >
               <motion.div 
-                className="w-1.5 h-1.5 rounded-full bg-rose-400"
+                className="w-1.5 h-1.5 rounded-full bg-rose-500"
                 animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -148,10 +148,10 @@ const WhyCarbonCrew: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-1.5 sm:mb-2 md:mb-3"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-800 mb-1.5 sm:mb-2 md:mb-3"
             >
               Why{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-rose-600">
                 CarbonCrew
               </span>
               ?
@@ -161,7 +161,7 @@ const WhyCarbonCrew: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-md lg:max-w-xl mx-auto"
+              className="text-slate-500 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-md lg:max-w-xl mx-auto"
             >
               We're a passionate team that combines fresh ideas with cutting-edge technology to build digital products that stand out.
             </motion.p>
@@ -173,9 +173,9 @@ const WhyCarbonCrew: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={techInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="text-sm xs:text-base sm:text-xl md:text-2xl font-semibold text-white mb-3 xs:mb-4 sm:mb-8"
+              className="text-sm xs:text-base sm:text-xl md:text-2xl font-semibold text-slate-800 mb-3 xs:mb-4 sm:mb-8"
             >
-              Technologies We <span className="text-rose-400">Master</span>
+              Technologies We <span className="text-rose-500">Master</span>
             </motion.h3>
             
             {/* Tech Grid */}
@@ -204,22 +204,22 @@ const WhyCarbonCrew: React.FC = () => {
                   className="group flex flex-col items-center"
                 >
                   <motion.div 
-                    className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 rounded-lg xs:rounded-xl sm:rounded-2xl flex items-center justify-center mb-1.5 xs:mb-2 sm:mb-3 transition-all duration-300 bg-white/[0.03] border border-white/[0.08] group-hover:border-rose-500/30 group-hover:bg-white/[0.06]"
+                    className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 rounded-lg xs:rounded-xl sm:rounded-2xl flex items-center justify-center mb-1.5 xs:mb-2 sm:mb-3 transition-all duration-300 bg-white border border-slate-200 group-hover:border-slate-300 group-hover:bg-white shadow-sm group-hover:shadow-lg"
                     style={{
-                      boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05)',
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
                     }}
                     whileHover={{
-                      boxShadow: `0 0 30px ${tech.color}20, inset 0 1px 1px rgba(255,255,255,0.1)`,
+                      boxShadow: `0 10px 30px ${tech.color}20`,
                     }}
                   >
                     <div 
-                      className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 transition-all duration-300 opacity-60 group-hover:opacity-100"
+                      className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 transition-all duration-300 opacity-80 group-hover:opacity-100"
                       style={{ color: tech.color }}
                     >
                       {tech.icon}
                     </div>
                   </motion.div>
-                  <span className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm text-gray-500 group-hover:text-gray-300 transition-colors duration-300 font-medium">
+                  <span className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm text-slate-500 group-hover:text-slate-700 transition-colors duration-300 font-medium">
                     {tech.name}
                   </span>
                 </motion.div>
@@ -235,8 +235,8 @@ const WhyCarbonCrew: React.FC = () => {
             className="mt-4 xs:mt-6 sm:mt-12 md:mt-14"
           >
             <motion.button
-              className="px-5 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-4 rounded-lg xs:rounded-xl bg-gradient-to-r from-rose-500 to-red-500 text-white text-xs xs:text-sm sm:text-base font-semibold relative overflow-hidden group"
-              whileHover={{ scale: 1.05, boxShadow: '0 15px 40px rgba(225, 29, 72, 0.3)' }}
+              className="px-5 xs:px-6 sm:px-8 py-2 xs:py-2.5 sm:py-4 rounded-lg xs:rounded-xl bg-gradient-to-r from-rose-500 to-rose-600 text-white text-xs xs:text-sm sm:text-base font-semibold relative overflow-hidden group shadow-lg shadow-rose-500/25"
+              whileHover={{ scale: 1.05, boxShadow: '0 15px 40px rgba(244, 63, 94, 0.3)' }}
               whileTap={{ scale: 0.98 }}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -246,7 +246,7 @@ const WhyCarbonCrew: React.FC = () => {
                 </svg>
               </span>
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-rose-400 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="absolute inset-0 bg-gradient-to-r from-rose-600 to-rose-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               />
             </motion.button>
           </motion.div>

@@ -48,15 +48,16 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="relative w-full h-full flex-1 bg-transparent overflow-hidden z-10 flex flex-col justify-end">
-      {/* Background decoration - same as other sections */}
+    <footer className="relative w-full h-full flex-1 bg-gradient-to-b from-white to-rose-50/30 overflow-hidden z-10 flex flex-col justify-end">
+      {/* Background decoration - with rose accents */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-1/3 left-1/4 w-[200px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[500px] h-[200px] sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[500px] bg-rose-500/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px] opacity-30" />
-        <div className="absolute bottom-1/4 right-1/4 w-[160px] sm:w-[220px] md:w-[260px] lg:w-[300px] xl:w-[400px] h-[160px] sm:h-[220px] md:h-[260px] lg:h-[300px] xl:h-[400px] bg-red-500/5 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] lg:blur-[120px] opacity-20" />
+        <div className="absolute top-1/3 left-1/4 w-[200px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[500px] h-[200px] sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[500px] bg-rose-500/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] lg:blur-[150px] opacity-40" />
+        <div className="absolute bottom-1/4 right-1/4 w-[160px] sm:w-[220px] md:w-[260px] lg:w-[300px] xl:w-[400px] h-[160px] sm:h-[220px] md:h-[260px] lg:h-[300px] xl:h-[400px] bg-slate-500/5 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] lg:blur-[120px] opacity-20" />
+        <div className="absolute top-1/2 right-1/3 w-[100px] sm:w-[150px] md:w-[200px] lg:w-[250px] h-[100px] sm:h-[150px] md:h-[200px] lg:h-[250px] bg-rose-400/5 rounded-full blur-[50px] sm:blur-[70px] md:blur-[90px] opacity-30" />
       </div>
       
       {/* Footer content at bottom */}
-      <div className="w-full relative z-20 bg-[#030014]/80 backdrop-blur-sm border-t border-white/5 overflow-x-hidden">
+      <div className="w-full relative z-20 bg-white border-t border-slate-200 overflow-x-hidden shadow-lg shadow-slate-200/30">
         {/* Main footer content */}
         <div className="container mx-auto px-4 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-5 sm:py-8 md:py-10 lg:py-14">
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-5 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12">
@@ -70,25 +71,25 @@ const Footer: React.FC = () => {
               >
                 {/* Logo */}
                 <div className="flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-4 md:mb-5">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-rose-400 to-red-500 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-rose-200">
                     <span className="text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl">C</span>
                   </div>
                   <div className="min-w-0">
-                    <span className="text-white font-bold text-base sm:text-lg md:text-xl lg:text-2xl">
-                      Carbon<span className="text-rose-400">Crew</span>
+                    <span className="text-slate-800 font-bold text-base sm:text-lg md:text-xl lg:text-2xl">
+                      Carbon<span className="text-rose-500">Crew</span>
                     </span>
-                    <p className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs text-gray-500 tracking-widest uppercase">Digital Studio</p>
+                    <p className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs text-slate-500 tracking-widest uppercase">Digital Studio</p>
                   </div>
                 </div>
                 
-                <p className="text-gray-400 text-[11px] sm:text-xs md:text-sm lg:text-base leading-relaxed mb-3 sm:mb-4 md:mb-5 max-w-xs sm:max-w-sm">
+                <p className="text-slate-600 text-[11px] sm:text-xs md:text-sm lg:text-base leading-relaxed mb-3 sm:mb-4 md:mb-5 max-w-xs sm:max-w-sm">
                   A fresh digital studio ready to bring your ideas to life. 
                   Building innovative web solutions, one project at a time.
                 </p>
                 
                 {/* Newsletter */}
                 <div className="mb-3 sm:mb-4 md:mb-5">
-                  <p className="text-[11px] sm:text-xs md:text-sm lg:text-base text-white font-medium mb-2 sm:mb-2.5">Subscribe to our newsletter</p>
+                  <p className="text-[11px] sm:text-xs md:text-sm lg:text-base text-slate-700 font-medium mb-2 sm:mb-2.5">Subscribe to our newsletter</p>
                   <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2">
                     <div className="relative flex-1 min-w-0">
                       <input
@@ -96,23 +97,23 @@ const Footer: React.FC = () => {
                         placeholder="Enter your email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-white text-[11px] sm:text-xs md:text-sm outline-none transition-all duration-200 placeholder-gray-500 bg-white/[0.03] border border-white/[0.06] focus:border-rose-500/50"
+                        className="w-full px-3 sm:px-4 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-slate-800 text-[11px] sm:text-xs md:text-sm outline-none transition-all duration-200 placeholder-slate-400 bg-slate-100 border border-slate-200 focus:border-rose-400 focus:bg-white focus:ring-2 focus:ring-rose-100"
                       />
                     </div>
-                    <motion.button
+                    <button
                       type="submit"
-                      className="px-4 sm:px-4 md:px-5 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-[11px] sm:text-xs md:text-sm font-semibold text-white bg-gradient-to-r from-rose-500 to-red-500 flex-shrink-0"
-                      whileHover={{ scale: 1.02, boxShadow: '0 4px 20px rgba(225, 29, 72, 0.3)' }}
-                      whileTap={{ scale: 0.98 }}
+                      className={`px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-white text-[11px] sm:text-xs md:text-sm font-semibold transition-all duration-300 ${
+                        isSubscribed ? 'bg-green-500' : 'bg-rose-500 hover:bg-rose-600 active:scale-95'
+                      }`}
                     >
                       {isSubscribed ? '✓' : 'Subscribe'}
-                    </motion.button>
+                    </button>
                   </form>
                   {isSubscribed && (
                     <motion.p
                       initial={{ opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="text-rose-400 text-[10px] sm:text-xs mt-1.5 sm:mt-2"
+                      className="text-rose-500 text-[10px] sm:text-xs mt-1.5 sm:mt-2"
                     >
                       Thanks for subscribing!
                     </motion.p>
@@ -125,7 +126,7 @@ const Footer: React.FC = () => {
                     <motion.a
                       key={social.name}
                       href={social.href}
-                      className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center bg-white/[0.03] border border-white/[0.06] text-gray-400 hover:text-rose-400 hover:border-rose-500/30 hover:bg-rose-500/10 transition-all flex-shrink-0"
+                      className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg sm:rounded-xl flex items-center justify-center bg-slate-100 border border-slate-200 text-slate-500 hover:text-rose-500 hover:border-rose-300 hover:bg-rose-50 transition-all flex-shrink-0 shadow-sm"
                       whileHover={{ y: -3 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -146,15 +147,12 @@ const Footer: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="col-span-1"
             >
-              <h4 className="text-white font-semibold text-xs sm:text-sm md:text-base mb-2 sm:mb-3 md:mb-4">Services</h4>
+              <h4 className="text-slate-800 font-semibold text-xs sm:text-sm md:text-base mb-2 sm:mb-3 md:mb-4">Services</h4>
               <ul className="space-y-1.5 sm:space-y-2 md:space-y-3">
                 {footerLinks.services.map((link) => (
                   <li key={link.name}>
-                    <a 
-                      href={link.href} 
-                      className="text-gray-400 text-[10px] sm:text-xs md:text-sm hover:text-rose-400 transition-colors inline-flex items-center gap-1 group"
-                    >
-                      <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                    <a href={link.href} className="text-slate-500 hover:text-rose-500 text-[11px] sm:text-xs md:text-sm transition-colors block py-0.5">
+                      {link.name}
                     </a>
                   </li>
                 ))}
@@ -168,30 +166,27 @@ const Footer: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="col-span-1"
             >
-              <h4 className="text-white font-semibold text-xs sm:text-sm md:text-base mb-2 sm:mb-3 md:mb-4">Company</h4>
+              <h4 className="text-slate-800 font-semibold text-xs sm:text-sm md:text-base mb-2 sm:mb-3 md:mb-4">Company</h4>
               <ul className="space-y-1.5 sm:space-y-2 md:space-y-3">
                 {footerLinks.company.map((link) => (
                   <li key={link.name}>
-                    <a 
-                      href={link.href} 
-                      className="text-gray-400 text-[10px] sm:text-xs md:text-sm hover:text-rose-400 transition-colors inline-flex items-center gap-1 group"
-                    >
-                      <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                    <a href={link.href} className="text-slate-500 hover:text-rose-500 text-[11px] sm:text-xs md:text-sm transition-colors block py-0.5">
+                      {link.name}
                     </a>
                   </li>
                 ))}
               </ul>
               
               {/* Legal links under Company on mobile */}
-              <h4 className="text-white font-semibold text-xs sm:text-sm md:text-base mb-2 sm:mb-3 md:mb-4 mt-4 sm:mt-5 lg:hidden">Legal</h4>
+              <h4 className="text-slate-800 font-semibold text-xs sm:text-sm md:text-base mb-2 sm:mb-3 md:mb-4 mt-4 sm:mt-5 lg:hidden">Legal</h4>
               <ul className="space-y-1.5 sm:space-y-2 md:space-y-3 lg:hidden">
                 {footerLinks.legal.map((link) => (
                   <li key={link.name}>
                     <a 
                       href={link.href} 
-                      className="text-gray-400 text-[10px] sm:text-xs md:text-sm hover:text-rose-400 transition-colors inline-flex items-center gap-1 group"
+                      className="text-slate-500 hover:text-rose-500 text-[11px] sm:text-xs md:text-sm transition-colors block py-0.5"
                     >
-                      <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                      {link.name}
                     </a>
                   </li>
                 ))}
@@ -206,15 +201,12 @@ const Footer: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="hidden lg:block"
             >
-              <h4 className="text-white font-semibold text-xs sm:text-sm md:text-base mb-2.5 sm:mb-3 md:mb-4">Legal</h4>
+              <h4 className="text-slate-800 font-semibold text-xs sm:text-sm md:text-base mb-2.5 sm:mb-3 md:mb-4">Legal</h4>
               <ul className="space-y-2 sm:space-y-2.5 md:space-y-3">
                 {footerLinks.legal.map((link) => (
                   <li key={link.name}>
-                    <a 
-                      href={link.href} 
-                      className="text-gray-400 text-[11px] sm:text-xs md:text-sm hover:text-rose-400 transition-colors inline-flex items-center gap-1 group"
-                    >
-                      <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                    <a href={link.href} className="text-slate-500 hover:text-rose-500 text-[11px] sm:text-xs md:text-sm transition-colors block py-0.5">
+                      {link.name}
                     </a>
                   </li>
                 ))}
@@ -224,37 +216,22 @@ const Footer: React.FC = () => {
         </div>
         
         {/* Bottom bar */}
-        <div className="border-t border-white/5">
-          <div className="container mx-auto px-4 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-3 sm:py-4 md:py-5">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <motion.p 
-              className="text-gray-500 text-[10px] sm:text-xs md:text-sm text-center sm:text-left"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              © {new Date().getFullYear()} CarbonCrew. All rights reserved.
-            </motion.p>
-            
-            {/* Back to top button */}
-            <motion.button
-              onClick={scrollToTop}
-              className="flex items-center gap-1.5 sm:gap-2 text-gray-400 text-[10px] sm:text-xs md:text-sm hover:text-rose-400 transition-colors group"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <span>Back to top</span>
-              <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-md sm:rounded-lg flex items-center justify-center bg-white/[0.03] border border-white/[0.06] group-hover:border-rose-500/30">
-                <svg 
-                  className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 arrow-up-bounce" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
+        <div className="border-t border-slate-200 bg-slate-50/50">
+          <div className="container mx-auto px-4 sm:px-5 md:px-6 lg:px-8 xl:px-10 py-3 sm:py-4 md:py-5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
+            <p className="text-slate-500 text-[10px] sm:text-xs text-center sm:text-left">
+              &copy; {new Date().getFullYear()} CarbonCrew. All rights reserved.
+            </p>
+            <div className="flex items-center gap-4 sm:gap-6">
+              {footerLinks.legal.map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href}
+                  className="text-slate-500 hover:text-rose-500 text-[10px] sm:text-xs transition-colors"
+                  onClick={(e) => e.preventDefault()}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-              </div>
-            </motion.button>
+                  {link.name}
+                </a>
+              ))}
             </div>
           </div>
         </div>

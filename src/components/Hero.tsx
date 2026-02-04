@@ -37,16 +37,16 @@ const Hero: React.FC = () => {
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(225, 29, 72, 0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(225, 29, 72, 0.5) 1px, transparent 1px)
+            linear-gradient(rgba(100, 116, 139, 0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(100, 116, 139, 0.5) 1px, transparent 1px)
           `,
           backgroundSize: '80px 80px',
         }}
       />
       
       {/* Ambient glows - static for performance */}
-      <div className="absolute top-1/4 left-1/4 w-[300px] sm:w-[400px] lg:w-[500px] h-[300px] sm:h-[400px] lg:h-[500px] bg-rose-500/5 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none opacity-40" />
-      <div className="absolute bottom-1/3 right-1/4 w-[250px] sm:w-[300px] lg:w-[400px] h-[250px] sm:h-[300px] lg:h-[400px] bg-red-500/5 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none opacity-30" />
+      <div className="absolute top-1/4 left-1/4 w-[300px] sm:w-[400px] lg:w-[500px] h-[300px] sm:h-[400px] lg:h-[500px] bg-slate-400/5 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none opacity-40" />
+      <div className="absolute bottom-1/3 right-1/4 w-[250px] sm:w-[300px] lg:w-[400px] h-[250px] sm:h-[300px] lg:h-[400px] bg-slate-500/5 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none opacity-30" />
       
       {/* Main centered content - centered both horizontally and vertically */}
       <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -60,13 +60,13 @@ const Hero: React.FC = () => {
           className="mb-3 sm:mb-4 lg:mb-6"
         >
           <motion.div 
-            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-rose-500/20 backdrop-blur-sm"
-            whileHover={isLowEnd ? {} : { scale: 1.05, borderColor: 'rgba(225, 29, 72, 0.5)' }}
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/90 border border-slate-200 backdrop-blur-sm shadow-sm"
+            whileHover={isLowEnd ? {} : { scale: 1.05, borderColor: 'rgba(244, 63, 94, 0.3)' }}
           >
             <div
-              className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-rose-400 rounded-full status-pulse"
+              className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-rose-500 rounded-full status-pulse"
             />
-            <span className="text-rose-300 text-[11px] sm:text-sm font-medium tracking-wide">
+            <span className="text-rose-600 text-[11px] sm:text-sm font-medium tracking-wide">
               Ready to Build Your Vision
             </span>
           </motion.div>
@@ -77,7 +77,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, delay: 0.4, type: 'spring', stiffness: 50 }}
-          className="font-display font-bold text-white leading-[1.1] sm:leading-[0.95] tracking-tight mb-4 sm:mb-4 lg:mb-6"
+          className="font-display font-bold text-slate-800 leading-[1.1] sm:leading-[0.95] tracking-tight mb-4 sm:mb-4 lg:mb-6"
           style={{ fontSize: 'clamp(2.5rem, 10vw, 6rem)' }}
         >
           <motion.span 
@@ -89,7 +89,7 @@ const Hero: React.FC = () => {
             We Build
           </motion.span>
           <motion.span 
-            className="block mt-1 sm:mt-1 lg:mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-red-400 to-rose-300"
+            className="block mt-1 sm:mt-1 lg:mt-2 text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-rose-600 to-rose-500"
             initial={{ opacity: 0, x: 50 }}
             animate={isLoaded ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -117,12 +117,12 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
           animate={isLoaded ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
           transition={{ duration: 0.8, delay: 0.9 }}
-          className="text-gray-400 max-w-xl mx-auto mb-6 sm:mb-8 leading-relaxed font-light px-2 sm:px-0"
+          className="text-slate-600 max-w-xl mx-auto mb-6 sm:mb-8 leading-relaxed font-light px-2 sm:px-0"
           style={{ fontSize: 'clamp(0.95rem, 2.5vw, 1.125rem)' }}
         >
           A fresh digital studio bringing your ideas to life with 
-          <span className="text-rose-400"> modern technology</span> and 
-          <span className="text-red-400"> creative solutions</span>.
+          <span className="text-slate-700 font-medium"> modern technology</span> and 
+          <span className="text-slate-700 font-medium"> creative solutions</span>.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -134,9 +134,9 @@ const Hero: React.FC = () => {
         >
           <motion.button
             onClick={scrollToServices}
-            whileHover={isLowEnd ? {} : { scale: 1.05, boxShadow: '0 0 40px rgba(225, 29, 72, 0.4)' }}
+            whileHover={isLowEnd ? {} : { scale: 1.05, boxShadow: '0 0 40px rgba(244, 63, 94, 0.2)' }}
             whileTap={{ scale: 0.98 }}
-            className="group relative w-full sm:w-auto px-6 sm:px-6 lg:px-8 py-3 sm:py-3 lg:py-4 bg-gradient-to-r from-rose-500 to-red-500 rounded-full font-semibold text-white overflow-hidden text-base sm:text-base"
+            className="group relative w-full sm:w-auto px-6 sm:px-6 lg:px-8 py-3 sm:py-3 lg:py-4 bg-gradient-to-r from-rose-500 to-rose-600 rounded-full font-semibold text-white overflow-hidden text-base sm:text-base shadow-lg shadow-rose-500/25"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               Explore Our Work
@@ -151,7 +151,7 @@ const Hero: React.FC = () => {
             </span>
             {!isLowEnd && (
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-red-500 to-rose-500"
+                className="absolute inset-0 bg-gradient-to-r from-rose-600 to-rose-700"
                 initial={{ x: '100%' }}
                 whileHover={{ x: 0 }}
                 transition={{ duration: 0.3 }}
@@ -166,11 +166,12 @@ const Hero: React.FC = () => {
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-auto px-6 sm:px-6 lg:px-8 py-3 sm:py-3 lg:py-4 rounded-full font-semibold text-white border border-white/20 hover:border-rose-500/50 hover:bg-white/5 transition-all duration-300 text-base sm:text-base"
+            className="w-full sm:w-auto px-6 sm:px-6 lg:px-8 py-3 sm:py-3 lg:py-4 rounded-full font-semibold text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-white transition-all duration-300 text-base sm:text-base bg-white/50 backdrop-blur-sm"
           >
             Get in Touch
           </motion.button>
         </motion.div>
+        
         </div>
       </div>
 
@@ -187,12 +188,12 @@ const Hero: React.FC = () => {
           className="flex flex-col items-center gap-1.5 sm:gap-2 cursor-pointer"
           onClick={scrollToServices}
         >
-          <span className="text-gray-500 text-[10px] sm:text-xs uppercase tracking-widest">Scroll</span>
-          <div className="w-5 h-8 sm:w-6 sm:h-10 rounded-full border-2 border-gray-600 flex justify-center p-1.5 sm:p-2">
+          <span className="text-slate-400 text-[10px] sm:text-xs uppercase tracking-widest">Scroll</span>
+          <div className="w-5 h-8 sm:w-6 sm:h-10 rounded-full border-2 border-slate-300 flex justify-center p-1.5 sm:p-2">
             <motion.div
               animate={{ y: [0, 12, 0] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-rose-400 rounded-full"
+              className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-slate-500 rounded-full"
             />
           </div>
         </motion.div>

@@ -197,10 +197,11 @@ const Contact: React.FC = () => {
       ref={sectionRef}
       className="relative w-full h-full flex flex-col justify-start overflow-y-auto overflow-x-hidden bg-transparent pt-16 pb-6 sm:pt-20 sm:pb-8 md:py-12 lg:pt-20 lg:pb-12"
     >
-      {/* Nebula backgrounds - static */}
+      {/* Nebula backgrounds - with rose accents */}
       <div className="absolute inset-0 overflow-hidden z-[5] pointer-events-none">
-        <div className="absolute top-1/3 right-1/4 w-[150px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[500px] h-[150px] sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[500px] bg-rose-500/5 rounded-full blur-[40px] sm:blur-[80px] md:blur-[100px] lg:blur-[120px] opacity-30" />
-        <div className="absolute bottom-1/4 left-1/3 w-[120px] sm:w-[250px] md:w-[300px] lg:w-[350px] xl:w-[450px] h-[120px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[450px] bg-red-500/5 rounded-full blur-[30px] sm:blur-[70px] md:blur-[80px] lg:blur-[100px] opacity-25" />
+        <div className="absolute top-1/3 right-1/4 w-[150px] sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[500px] h-[150px] sm:h-[300px] md:h-[350px] lg:h-[400px] xl:h-[500px] bg-rose-500/5 rounded-full blur-[40px] sm:blur-[80px] md:blur-[100px] lg:blur-[120px] opacity-40" />
+        <div className="absolute bottom-1/4 left-1/3 w-[120px] sm:w-[250px] md:w-[300px] lg:w-[350px] xl:w-[450px] h-[120px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[450px] bg-slate-500/5 rounded-full blur-[30px] sm:blur-[70px] md:blur-[80px] lg:blur-[100px] opacity-25" />
+        <div className="absolute top-1/2 left-1/4 w-[100px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-[100px] sm:h-[200px] md:h-[250px] lg:h-[300px] bg-rose-400/5 rounded-full blur-[40px] sm:blur-[60px] md:blur-[80px] opacity-30" />
       </div>
       
       {/* Content */}
@@ -214,10 +215,10 @@ const Contact: React.FC = () => {
                 initial={{ opacity: 0, x: -30, scale: 0.9 }}
                 animate={headerInView ? { opacity: 1, x: 0, scale: 1 } : {}}
                 transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 bg-rose-500/10 border border-rose-500/20 text-rose-400"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 bg-rose-500/10 border border-rose-500/20 text-rose-500"
               >
                 <motion.div 
-                  className="w-1.5 h-1.5 rounded-full bg-rose-400"
+                  className="w-1.5 h-1.5 rounded-full bg-rose-500"
                   animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
@@ -228,11 +229,11 @@ const Contact: React.FC = () => {
                 initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
                 animate={headerInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-1.5 sm:mb-2"
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-dark-900 mb-1.5 sm:mb-2"
               >
                 Let's Start a{' '}
                 <motion.span 
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-500 inline-block"
+                  className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-rose-600 inline-block"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={headerInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ duration: 0.6, delay: 0.4, type: 'spring' }}
@@ -245,7 +246,7 @@ const Contact: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={headerInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed"
+                className="text-dark-500 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed"
               >
                 Have a project in mind? Let's create something amazing together.
               </motion.p>
@@ -270,11 +271,11 @@ const Contact: React.FC = () => {
                     type: 'spring',
                     stiffness: 100
                   }}
-                  className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl group cursor-pointer bg-white/[0.03] border border-white/[0.06] hover:border-rose-500/30 transition-all"
-                  whileHover={{ x: 8, scale: 1.02, boxShadow: '0 8px 30px rgba(225, 29, 72, 0.12)' }}
+                  className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 md:p-4 rounded-lg sm:rounded-xl group cursor-pointer bg-slate-50 border border-slate-200 hover:border-rose-300 hover:bg-rose-50/50 transition-all shadow-sm"
+                  whileHover={{ x: 8, scale: 1.02, boxShadow: '0 8px 30px rgba(244, 63, 94, 0.12)' }}
                 >
                   <motion.div 
-                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-lg flex items-center justify-center bg-rose-500/10 text-rose-400 group-hover:bg-rose-500/20 transition-colors flex-shrink-0"
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-lg flex items-center justify-center bg-rose-500/10 text-rose-500 group-hover:bg-rose-500/20 transition-colors flex-shrink-0"
                     whileHover={{ rotate: [0, -10, 10, 0] }}
                     transition={{ duration: 0.5 }}
                   >
@@ -282,9 +283,9 @@ const Contact: React.FC = () => {
                   </motion.div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[9px] sm:text-[10px] md:text-xs text-gray-500 uppercase tracking-wider mb-0.5">{item.label}</p>
-                    <p className="text-white text-[11px] sm:text-xs md:text-sm font-medium group-hover:text-rose-400 transition-colors truncate">{item.value}</p>
+                    <p className="text-dark-900 text-[11px] sm:text-xs md:text-sm font-medium group-hover:text-rose-600 transition-colors truncate">{item.value}</p>
                   </div>
-                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600 group-hover:text-rose-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600 group-hover:text-rose-500 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </motion.a>
@@ -311,7 +312,7 @@ const Contact: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.4, delay: 0.8 + i * 0.1 }}
-                    className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-white/[0.03] border border-white/[0.06] text-gray-400 hover:text-rose-400 hover:border-rose-500/30 hover:bg-rose-500/10 transition-all"
+                    className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-slate-50 border border-slate-200 text-slate-500 hover:text-rose-500 hover:border-rose-300 hover:bg-rose-50 transition-all shadow-sm"
                     whileHover={{ y: -4, scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -332,11 +333,11 @@ const Contact: React.FC = () => {
             transition={{ duration: 1, delay: 0.5, type: 'spring', stiffness: 60 }}
           >
             <motion.div 
-              className="relative p-3 sm:p-4 md:p-5 lg:p-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/[0.05] to-white/[0.02] border border-white/[0.08] backdrop-blur-sm"
-              whileHover={{ borderColor: 'rgba(225, 29, 72, 0.2)' }}
+              className="relative p-3 sm:p-4 md:p-5 lg:p-6 rounded-xl sm:rounded-2xl bg-white border border-slate-200 shadow-lg shadow-slate-200/50"
+              whileHover={{ borderColor: 'rgba(244, 63, 94, 0.3)' }}
             >
               {/* Decorative glow */}
-              <div className="absolute -top-8 sm:-top-12 -right-8 sm:-right-12 w-20 sm:w-28 h-20 sm:h-28 bg-rose-500/20 rounded-full blur-[40px] sm:blur-[50px] pointer-events-none" />
+              <div className="absolute -top-8 sm:-top-12 -right-8 sm:-right-12 w-20 sm:w-28 h-20 sm:h-28 bg-rose-500/10 rounded-full blur-[40px] sm:blur-[50px] pointer-events-none" />
               
               <AnimatePresence mode="wait">
                 {isSubmitted ? (
@@ -354,7 +355,7 @@ const Contact: React.FC = () => {
                       className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-3 rounded-full flex items-center justify-center bg-rose-500/10 border-2 border-rose-500/30"
                     >
                       <motion.svg 
-                        className="w-6 h-6 sm:w-7 sm:h-7 text-rose-400" 
+                        className="w-6 h-6 sm:w-7 sm:h-7 text-rose-500" 
                         fill="none" 
                         viewBox="0 0 24 24" 
                         stroke="currentColor"
@@ -371,12 +372,12 @@ const Contact: React.FC = () => {
                       </motion.svg>
                     </motion.div>
                     
-                    <h3 className="text-sm sm:text-base md:text-lg font-bold text-white mb-1">Message Sent!</h3>
-                    <p className="text-gray-400 text-[11px] sm:text-xs mb-3">We'll get back to you within 24 hours.</p>
+                    <h3 className="text-sm sm:text-base md:text-lg font-bold text-dark-900 mb-1">Message Sent!</h3>
+                    <p className="text-dark-500 text-xs sm:text-sm mb-3">We'll get back to you within 24 hours.</p>
                     
                     <motion.button
                       onClick={() => setIsSubmitted(false)}
-                      className="px-4 py-1.5 rounded-lg text-[10px] sm:text-xs font-medium text-rose-400 border border-rose-500/30 hover:bg-rose-500/10 transition-colors"
+                      className="px-4 py-1.5 rounded-lg text-[10px] sm:text-xs font-medium text-rose-600 border border-rose-500/30 hover:bg-rose-500/10 transition-colors"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -393,7 +394,7 @@ const Contact: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       {/* Name */}
                       <div className="space-y-1">
-                        <label className="text-[10px] sm:text-xs text-gray-400 font-medium">Your Name</label>
+                        <label className="text-[10px] sm:text-xs text-secondary-500 font-medium">Your Name</label>
                         <motion.input
                           type="text"
                           placeholder="Name"
@@ -402,13 +403,13 @@ const Contact: React.FC = () => {
                           onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                           onFocus={() => setFocusedField('name')}
                           onBlur={() => setFocusedField(null)}
-                          className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-white placeholder-gray-500 text-xs sm:text-sm outline-none transition-all duration-300 bg-white/[0.03]"
+                          className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-dark-900 placeholder-dark-400 text-xs sm:text-sm outline-none transition-all duration-300 bg-white border border-dark-900/10 focus:border-rose-500/50"
                           style={{
                             border: focusedField === 'name' 
-                              ? '1px solid rgba(225, 29, 72, 0.5)' 
-                              : '1px solid rgba(255, 255, 255, 0.06)',
+                              ? '1px solid rgba(244, 63, 94, 0.5)' 
+                              : '1px solid rgba(15, 23, 42, 0.1)',
                             boxShadow: focusedField === 'name' 
-                              ? '0 0 20px rgba(225, 29, 72, 0.15)' 
+                              ? '0 0 20px rgba(244, 63, 94, 0.15)' 
                               : 'none',
                           }}
                         />
@@ -416,7 +417,7 @@ const Contact: React.FC = () => {
                       
                       {/* Email */}
                       <div className="space-y-1">
-                        <label className="text-[10px] sm:text-xs text-gray-400 font-medium">Email</label>
+                        <label className="text-[10px] sm:text-xs text-secondary-500 font-medium">Email</label>
                         <motion.input
                           type="email"
                           placeholder="abc@example.com"
@@ -425,13 +426,13 @@ const Contact: React.FC = () => {
                           onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                           onFocus={() => setFocusedField('email')}
                           onBlur={() => setFocusedField(null)}
-                          className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-white placeholder-gray-500 text-xs sm:text-sm outline-none transition-all duration-300 bg-white/[0.03]"
+                          className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-dark-900 placeholder-dark-400 text-xs sm:text-sm outline-none transition-all duration-300 bg-white border border-dark-900/10 focus:border-rose-500/50"
                           style={{
                             border: focusedField === 'email' 
-                              ? '1px solid rgba(225, 29, 72, 0.5)' 
-                              : '1px solid rgba(255, 255, 255, 0.06)',
+                              ? '1px solid rgba(244, 63, 94, 0.5)' 
+                              : '1px solid rgba(15, 23, 42, 0.1)',
                             boxShadow: focusedField === 'email' 
-                              ? '0 0 20px rgba(225, 29, 72, 0.15)' 
+                              ? '0 0 20px rgba(244, 63, 94, 0.15)' 
                               : 'none',
                           }}
                         />
@@ -440,32 +441,24 @@ const Contact: React.FC = () => {
                     
                     {/* Service Select */}
                     <div className="space-y-1">
-                      <label className="text-[10px] sm:text-xs text-gray-400 font-medium">Service</label>
+                      <label className="text-[10px] sm:text-xs text-secondary-500 font-medium">Service</label>
                       <motion.select
                         value={formState.service}
                         onChange={(e) => setFormState({ ...formState, service: e.target.value })}
                         onFocus={() => setFocusedField('service')}
                         onBlur={() => setFocusedField(null)}
-                        className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-white text-xs sm:text-sm outline-none transition-all duration-300 cursor-pointer appearance-none bg-white/[0.03]"
-                        style={{
-                          border: focusedField === 'service' 
-                            ? '1px solid rgba(225, 29, 72, 0.5)' 
-                            : '1px solid rgba(255, 255, 255, 0.06)',
-                          boxShadow: focusedField === 'service' 
-                            ? '0 0 20px rgba(225, 29, 72, 0.15)' 
-                            : 'none',
-                        }}
+                        className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-dark-900 text-xs sm:text-sm outline-none transition-all duration-300 cursor-pointer appearance-none bg-white border border-dark-900/10 focus:border-rose-500/50"
                       >
-                        <option value="" className="bg-[#030014]">Select a service...</option>
+                        <option value="" className="bg-white">Select a service...</option>
                         {services.map((service) => (
-                          <option key={service} value={service} className="bg-[#030014]">{service}</option>
+                          <option key={service} value={service} className="bg-white">{service}</option>
                         ))}
                       </motion.select>
                     </div>
                     
                     {/* Message */}
                     <div className="space-y-1">
-                      <label className="text-[10px] sm:text-xs text-gray-400 font-medium">Message</label>
+                      <label className="text-[10px] sm:text-xs text-secondary-500 font-medium">Message</label>
                       <motion.textarea
                         placeholder="Tell us about your project..."
                         required
@@ -474,13 +467,13 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                         onFocus={() => setFocusedField('message')}
                         onBlur={() => setFocusedField(null)}
-                        className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-white placeholder-gray-500 text-xs sm:text-sm outline-none resize-none transition-all duration-300 bg-white/[0.03]"
+                        className="w-full px-3 py-2 sm:py-2.5 rounded-lg text-dark-900 placeholder-dark-400 text-xs sm:text-sm outline-none resize-none transition-all duration-300 bg-white border border-dark-900/10 focus:border-rose-500/50"
                         style={{
                           border: focusedField === 'message' 
-                            ? '1px solid rgba(225, 29, 72, 0.5)' 
-                            : '1px solid rgba(255, 255, 255, 0.06)',
+                            ? '1px solid rgba(244, 63, 94, 0.5)' 
+                            : '1px solid rgba(15, 23, 42, 0.1)',
                           boxShadow: focusedField === 'message' 
-                            ? '0 0 20px rgba(225, 29, 72, 0.15)' 
+                            ? '0 0 20px rgba(244, 63, 94, 0.15)' 
                             : 'none',
                         }}
                       />
@@ -490,8 +483,8 @@ const Contact: React.FC = () => {
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-2.5 sm:py-3 rounded-lg font-semibold text-xs sm:text-sm text-white flex items-center justify-center gap-1.5 relative overflow-hidden group bg-gradient-to-r from-rose-500 to-red-500"
-                      whileHover={{ scale: 1.01, boxShadow: '0 10px 40px rgba(225, 29, 72, 0.3)' }}
+                      className="w-full py-2.5 sm:py-3 rounded-lg font-semibold text-xs sm:text-sm text-white flex items-center justify-center gap-1.5 relative overflow-hidden group bg-gradient-to-r from-rose-500 to-rose-600 shadow-lg shadow-rose-500/25"
+                      whileHover={{ scale: 1.01, boxShadow: '0 10px 40px rgba(244, 63, 94, 0.3)' }}
                       whileTap={{ scale: 0.99 }}
                     >
                       {/* Shine effect */}
@@ -527,7 +520,7 @@ const Contact: React.FC = () => {
                     
                     <p className="text-[9px] sm:text-[10px] text-gray-500 text-center">
                       By submitting, you agree to our{' '}
-                      <span className="text-rose-400">Privacy Policy</span>
+                      <span className="text-rose-500">Privacy Policy</span>
                     </p>
                   </motion.form>
                 )}
