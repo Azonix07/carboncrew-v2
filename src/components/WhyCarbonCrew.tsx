@@ -134,10 +134,10 @@ const WhyCarbonCrew: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-1.5 xs:gap-2 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full text-[10px] xs:text-xs sm:text-sm font-medium mb-2 xs:mb-3 sm:mb-4 bg-rose-500/10 border border-rose-500/20 text-rose-400"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 md:mb-4 bg-rose-500/10 border border-rose-500/20 text-rose-400"
             >
               <motion.div 
-                className="w-1 xs:w-1.5 h-1 xs:h-1.5 rounded-full bg-rose-400"
+                className="w-1.5 h-1.5 rounded-full bg-rose-400"
                 animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
@@ -148,7 +148,7 @@ const WhyCarbonCrew: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 xs:mb-3 sm:mb-6"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-1.5 sm:mb-2 md:mb-3"
             >
               Why{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-500">
@@ -161,7 +161,7 @@ const WhyCarbonCrew: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-gray-400 text-[11px] xs:text-xs sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto px-2"
+              className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-md lg:max-w-xl mx-auto"
             >
               We're a passionate team that combines fresh ideas with cutting-edge technology to build digital products that stand out.
             </motion.p>

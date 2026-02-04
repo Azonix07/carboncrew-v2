@@ -159,6 +159,13 @@
     box-sizing: border-box;
     overflow: hidden;
   }
+
+  /* Contact section needs internal scroll on mobile */
+  #contact.snap-section {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
   
   /* Last section - footer page */
   .snap-section:last-of-type {

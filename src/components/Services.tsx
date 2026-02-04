@@ -224,16 +224,13 @@ const Services: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={headerInView ? { opacity: 1, scale: 1, y: 0 } : {}}
             transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
-            className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-3.5 lg:px-4 py-1 sm:py-1.5 md:py-2 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2.5 sm:mb-3 md:mb-4"
-            style={{
-              background: 'rgba(225, 29, 72, 0.1)',
-              border: '1px solid rgba(225, 29, 72, 0.2)',
-              color: '#FB7185'
-            }}
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs md:text-sm font-medium mb-2 sm:mb-3 md:mb-4 bg-rose-500/10 border border-rose-500/20 text-rose-400"
           >
-            <span className={isLowEnd ? '' : 'emoji-rotate'}>
-              ⚡
-            </span>
+            <motion.div 
+              className="w-1.5 h-1.5 rounded-full bg-rose-400"
+              animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
             What We Offer
           </motion.span>
           
@@ -241,7 +238,7 @@ const Services: React.FC = () => {
             initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
             animate={headerInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-display font-bold text-white mb-1.5 sm:mb-2 md:mb-3"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-1.5 sm:mb-2 md:mb-3"
           >
             Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-400">Services</span>
           </motion.h2>
@@ -250,7 +247,7 @@ const Services: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-gray-400 text-[11px] sm:text-xs md:text-sm lg:text-base xl:text-lg max-w-md lg:max-w-lg xl:max-w-xl mx-auto px-2"
+            className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed max-w-md lg:max-w-xl mx-auto"
           >
             Comprehensive digital solutions tailored to transform your business
           </motion.p>

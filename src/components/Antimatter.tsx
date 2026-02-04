@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface AntimatterProps {
   currentSection: number;
@@ -277,10 +277,14 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
     };
   }, []);
   
-  // Visibility based on scroll progress - visible on first 2 pages (Hero and Services)
-  // Fade starts at 1.5 (halfway to 3rd page) and completes at 2.0
-  const isVisible = scrollProgress < 2;
-  const fadeOpacity = scrollProgress < 1.5 ? 1 : Math.max(0, 1 - (scrollProgress - 1.5) * 2);
+  // Visibility based on current section - visible on first 2 pages (Hero and Services)
+  // Use currentSection prop as the primary source since snap-scroll jumps directly
+  // scrollProgress is used for smooth fade during transition
+  const isOnVisibleSection = currentSection < 2;
+  const fadeOpacity = isOnVisibleSection 
+    ? (scrollProgress < 1.5 ? 1 : Math.max(0.1, 1 - (scrollProgress - 1.5) * 2))
+    : 0;
+  const isVisible = isOnVisibleSection;
   
   // Significantly reduced particle count for performance
   // Low-end: 80 particles, Mobile: 120 particles, Desktop: 200 particles
@@ -615,54 +619,52 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
   const targetScale = 1 - (clampedProgress * 0.25); // 1 to 0.75
   
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          key="antimatter-container"
-          className="fixed z-[5]"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: fadeOpacity, 
-            scale: targetScale,
-            left: `${targetLeft}%`,
-            top: '50%',
-            x: '-50%',
-            y: '-50%',
+    <motion.div
+      className="fixed z-[5]"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ 
+        opacity: fadeOpacity, 
+        scale: targetScale,
+        left: `${targetLeft}%`,
+        top: '50%',
+        x: '-50%',
+        y: '-50%',
+      }}
+      transition={{
+        opacity: { type: 'tween', duration: 0.2, ease: 'easeOut' },
+        scale: { type: 'tween', duration: 0.1, ease: 'linear' },
+        left: { type: 'tween', duration: 0.1, ease: 'linear' },
+      }}
+      style={{
+        pointerEvents: isVisible ? 'auto' : 'none',
+        visibility: isVisible ? 'visible' : 'hidden',
+      }}
+    >
+      {/* Ambient glow */}
+      <motion.div 
+        className="absolute inset-0 -m-32 rounded-full blur-3xl pointer-events-none"
+        animate={{
+          opacity: [0.15, 0.25, 0.15],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 4, repeat: Infinity }}
+        style={{
+          background: 'radial-gradient(circle, rgba(225, 29, 72, 0.3) 0%, rgba(251, 113, 133, 0.15) 50%, transparent 70%)',
+        }}
+      />
+      
+      <div className="relative">
+        <canvas
+          ref={canvasRef}
+          className="cursor-pointer"
+          onMouseMove={(e) => handleMouseMove(e.nativeEvent)}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            filter: isLowEnd ? 'none' : 'drop-shadow(0 0 40px rgba(225, 29, 72, 0.35))',
           }}
-          exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-          transition={{
-            opacity: { type: 'tween', duration: 0.2, ease: 'easeOut' },
-            scale: { type: 'tween', duration: 0.1, ease: 'linear' },
-            left: { type: 'tween', duration: 0.1, ease: 'linear' },
-          }}
-        >
-          {/* Ambient glow */}
-          <motion.div 
-            className="absolute inset-0 -m-32 rounded-full blur-3xl pointer-events-none"
-            animate={{
-              opacity: [0.15, 0.25, 0.15],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{ duration: 4, repeat: Infinity }}
-            style={{
-              background: 'radial-gradient(circle, rgba(225, 29, 72, 0.3) 0%, rgba(251, 113, 133, 0.15) 50%, transparent 70%)',
-            }}
-          />
-          
-          <div className="relative">
-            <canvas
-              ref={canvasRef}
-              className="cursor-pointer"
-              onMouseMove={(e) => handleMouseMove(e.nativeEvent)}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                filter: isLowEnd ? 'none' : 'drop-shadow(0 0 40px rgba(225, 29, 72, 0.35))',
-              }}
-            />
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        />
+      </div>
+    </motion.div>
   );
 };
 
