@@ -13,15 +13,6 @@ const Footer: React.FC = () => {
       setTimeout(() => setIsSubscribed(false), 3000);
     }
   };
-  
-  const scrollToTop = () => {
-    const scrollContainer = document.querySelector('.scroll-snap-container');
-    if (scrollContainer) {
-      scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
 
   const footerLinks = {
     services: [
