@@ -51,144 +51,168 @@ const SHAPES: Record<string, ShapeConfig> = {
   globe: {
     name: 'globe',
     getPosition: (index, total, radius) => {
-      const r = radius * 0.85;
+      const r = radius * 0.9;
       const t = index / total;
       
-      // Create latitude and longitude lines on a sphere
-      if (t < 0.6) {
-        // Sphere surface with denser equator
-        const phi = Math.acos(1 - 2 * (t / 0.6));
+      // More precise globe with clear lat/long grid lines
+      if (t < 0.5) {
+        // Main sphere surface
+        const phi = Math.acos(1 - 2 * (t / 0.5));
         const theta = Math.PI * (1 + Math.sqrt(5)) * index;
         return {
           x: r * Math.sin(phi) * Math.cos(theta),
           y: r * Math.cos(phi),
           z: r * Math.sin(phi) * Math.sin(theta),
         };
-      } else if (t < 0.8) {
-        // Horizontal latitude lines
-        const localT = (t - 0.6) / 0.2;
-        const latIndex = Math.floor(localT * 5);
-        const angleProgress = (localT * 5) % 1;
-        const lat = ((latIndex / 4) - 0.5) * Math.PI * 0.8;
+      } else if (t < 0.75) {
+        // Horizontal latitude lines (8 lines)
+        const localT = (t - 0.5) / 0.25;
+        const latIndex = Math.floor(localT * 8);
+        const angleProgress = (localT * 8) % 1;
+        const lat = ((latIndex / 7) - 0.5) * Math.PI * 0.9;
         const lon = angleProgress * Math.PI * 2;
+        const latRadius = r * Math.cos(lat);
         return {
-          x: r * Math.cos(lat) * Math.cos(lon),
+          x: latRadius * Math.cos(lon),
           y: r * Math.sin(lat),
-          z: r * Math.cos(lat) * Math.sin(lon),
+          z: latRadius * Math.sin(lon),
         };
       } else {
-        // Vertical longitude lines
-        const localT = (t - 0.8) / 0.2;
-        const lonIndex = Math.floor(localT * 6);
-        const angleProgress = (localT * 6) % 1;
-        const lon = (lonIndex / 6) * Math.PI * 2;
-        const lat = (angleProgress - 0.5) * Math.PI;
+        // Vertical longitude lines (12 lines)
+        const localT = (t - 0.75) / 0.25;
+        const lonIndex = Math.floor(localT * 12);
+        const angleProgress = (localT * 12) % 1;
+        const lon = (lonIndex / 12) * Math.PI * 2;
+        const lat = (angleProgress - 0.5) * Math.PI * 0.95;
+        const latRadius = r * Math.cos(lat);
         return {
-          x: r * Math.cos(lat) * Math.cos(lon),
+          x: latRadius * Math.cos(lon),
           y: r * Math.sin(lat),
-          z: r * Math.cos(lat) * Math.sin(lon),
+          z: latRadius * Math.sin(lon),
         };
       }
     },
   },
   
-  // Mobile Phone shape (Mobile Apps)
+  // Mobile Phone shape (Mobile Apps) - Just borders, narrower width
   mobile: {
     name: 'mobile',
     getPosition: (index, total, radius) => {
-      const r = radius * 0.75;
+      const r = radius * 0.85;
       const t = index / total;
-      const width = r * 0.5;
-      const height = r * 1.0;
-      const depth = r * 0.08;
+      const width = r * 0.32; // Reduced width for more realistic phone proportions
+      const height = r * 0.95;
+      const depth = r * 0.05;
       
-      if (t < 0.7) {
-        // Phone body outline with rounded corners
-        const localT = (t / 0.7) * 4; // 4 sides
-        const side = Math.floor(localT);
-        const sideProgress = localT % 1;
+      if (t < 0.6) {
+        // Outer border rectangle with rounded corners
+        const localT = t / 0.6;
+        const perimeterProgress = localT * 4; // 4 sides
+        const side = Math.floor(perimeterProgress);
+        const sideProgress = perimeterProgress % 1;
         
-        let x = 0, y = 0, z = 0;
+        let x = 0, y = 0;
         
         switch (side) {
-          case 0: // Right side
-            x = width;
-            y = height * (sideProgress - 0.5);
-            break;
-          case 1: // Top
-            x = width * (1 - sideProgress * 2);
+          case 0: // Top edge (left to right)
+            x = -width + sideProgress * (width * 2);
             y = height * 0.5;
             break;
-          case 2: // Left side
-            x = -width;
-            y = height * (0.5 - sideProgress);
+          case 1: // Right edge (top to bottom)
+            x = width;
+            y = height * 0.5 - sideProgress * height;
             break;
-          default: // Bottom
-            x = width * (sideProgress * 2 - 1);
+          case 2: // Bottom edge (right to left)
+            x = width - sideProgress * (width * 2);
             y = -height * 0.5;
+            break;
+          case 3: // Left edge (bottom to top)
+            x = -width;
+            y = -height * 0.5 + sideProgress * height;
+            break;
         }
-        z = (Math.random() - 0.5) * depth;
         
-        return { x, y, z };
+        return { x, y, z: 0 };
       } else if (t < 0.85) {
-        // Screen area (inner rectangle)
-        const localT = (t - 0.7) / 0.15;
-        const screenWidth = width * 0.85;
-        const screenHeight = height * 0.8;
-        const gridX = (localT * 5) % 1;
-        const gridY = Math.floor(localT * 5) / 5;
-        return {
-          x: (gridX - 0.5) * screenWidth * 2,
-          y: (gridY - 0.5) * screenHeight * 2,
-          z: depth * 0.5,
-        };
+        // Inner screen border (also just border)
+        const localT = (t - 0.6) / 0.25;
+        const screenWidth = width * 0.8;
+        const screenHeight = height * 0.75;
+        const perimeterProgress = localT * 4;
+        const side = Math.floor(perimeterProgress);
+        const sideProgress = perimeterProgress % 1;
+        
+        let x = 0, y = 0;
+        
+        switch (side) {
+          case 0:
+            x = -screenWidth + sideProgress * (screenWidth * 2);
+            y = screenHeight * 0.45;
+            break;
+          case 1:
+            x = screenWidth;
+            y = screenHeight * 0.45 - sideProgress * screenHeight;
+            break;
+          case 2:
+            x = screenWidth - sideProgress * (screenWidth * 2);
+            y = -screenHeight * 0.45;
+            break;
+          case 3:
+            x = -screenWidth;
+            y = -screenHeight * 0.45 + sideProgress * screenHeight;
+            break;
+        }
+        
+        return { x, y, z: depth };
       } else {
-        // Home button / notch at bottom
+        // Notch/camera at top
         const localT = (t - 0.85) / 0.15;
         const angle = localT * Math.PI * 2;
-        const buttonR = r * 0.08;
+        const notchR = r * 0.04;
         return {
-          x: buttonR * Math.cos(angle),
-          y: -height * 0.4,
-          z: depth,
+          x: notchR * Math.cos(angle),
+          y: height * 0.42,
+          z: depth * 2,
         };
       }
     },
   },
   
-  // Pen/Pencil shape (UI/UX Design)
+  // Pen/Pencil shape (UI/UX Design) - More refined
   pen: {
     name: 'pen',
     getPosition: (index, total, radius) => {
-      const r = radius * 0.9;
+      const r = radius * 0.95;
       const t = index / total;
       
-      // Pen oriented diagonally
-      const penLength = r * 1.2;
-      const penRadius = r * 0.08;
+      // Pen oriented at 45 degrees
+      const penLength = r * 1.3;
+      const penRadius = r * 0.07;
       
-      if (t < 0.65) {
-        // Pen body (cylinder)
-        const localT = t / 0.65;
-        const angle = localT * Math.PI * 2 * 8;
-        const heightPos = localT * penLength * 0.7;
+      if (t < 0.55) {
+        // Main pen body (hexagonal cylinder for realism)
+        const localT = t / 0.55;
+        const sides = 6;
+        const sideIndex = Math.floor(localT * sides * 10);
+        const angle = (sideIndex % sides) * (Math.PI * 2 / sides);
+        const heightPos = localT * penLength * 0.65;
         
-        // Rotate pen 45 degrees
         const bodyX = penRadius * Math.cos(angle);
-        const bodyY = heightPos - penLength * 0.3;
+        const bodyY = heightPos - penLength * 0.25;
         const bodyZ = penRadius * Math.sin(angle);
         
+        // Rotate 45 degrees
         return {
           x: (bodyX + bodyY) * 0.707,
           y: (bodyY - bodyX) * 0.707,
           z: bodyZ,
         };
-      } else if (t < 0.85) {
-        // Pen tip (cone)
-        const localT = (t - 0.65) / 0.2;
-        const angle = localT * Math.PI * 2 * 4;
-        const tipRadius = penRadius * (1 - localT);
-        const tipY = -penLength * 0.3 - localT * penLength * 0.2;
+      } else if (t < 0.7) {
+        // Pen tip (sharp cone)
+        const localT = (t - 0.55) / 0.15;
+        const angle = localT * Math.PI * 2 * 3;
+        const tipRadius = penRadius * 0.9 * (1 - localT * 0.95);
+        const tipY = -penLength * 0.25 - localT * penLength * 0.2;
         
         const tipX = tipRadius * Math.cos(angle);
         const tipZ = tipRadius * Math.sin(angle);
@@ -198,12 +222,23 @@ const SHAPES: Record<string, ShapeConfig> = {
           y: (tipY - tipX) * 0.707,
           z: tipZ,
         };
+      } else if (t < 0.85) {
+        // Pen clip
+        const localT = (t - 0.7) / 0.15;
+        const clipY = penLength * 0.3 + localT * penLength * 0.15;
+        const clipX = penRadius * 1.5;
+        
+        return {
+          x: (clipX + clipY) * 0.707,
+          y: (clipY - clipX) * 0.707,
+          z: 0,
+        };
       } else {
-        // Pen cap (top cylinder)
+        // Pen cap end (small circle)
         const localT = (t - 0.85) / 0.15;
-        const angle = localT * Math.PI * 2 * 3;
-        const capY = penLength * 0.4 + localT * penLength * 0.15;
-        const capRadius = penRadius * 1.1;
+        const angle = localT * Math.PI * 2;
+        const capY = penLength * 0.4;
+        const capRadius = penRadius * 0.8;
         
         const capX = capRadius * Math.cos(angle);
         const capZ = capRadius * Math.sin(angle);
@@ -217,61 +252,68 @@ const SHAPES: Record<string, ShapeConfig> = {
     },
   },
   
-  // Gear/Cog shape (Automation)
+  // Gear/Cog shape (Automation) - Settings icon style with 8 teeth
   gear: {
     name: 'gear',
     getPosition: (index, total, radius) => {
-      const r = radius * 0.8;
+      const r = radius * 0.85;
       const t = index / total;
-      const teeth = 8;
-      const innerR = r * 0.35;
-      const outerR = r * 0.65;
-      const toothHeight = r * 0.18;
-      const depth = r * 0.15;
+      const teeth = 8; // 8 teeth like standard settings icon
+      const innerR = r * 0.32;
+      const midR = r * 0.58;
+      const outerR = r * 0.78;
+      const depth = r * 0.08;
       
-      if (t < 0.15) {
-        // Center hole
-        const localT = t / 0.15;
+      if (t < 0.12) {
+        // Center hole (perfect circle)
+        const localT = t / 0.12;
         const angle = localT * Math.PI * 2;
-        const holeR = innerR * 0.5;
         return {
-          x: holeR * Math.cos(angle),
-          y: holeR * Math.sin(angle),
-          z: (Math.random() - 0.5) * depth,
+          x: innerR * Math.cos(angle),
+          y: innerR * Math.sin(angle),
+          z: 0,
         };
-      } else if (t < 0.5) {
-        // Inner disc
-        const localT = (t - 0.15) / 0.35;
-        const angle = localT * Math.PI * 2 * 3;
-        const discR = innerR + (outerR - innerR) * (localT % 1);
+      } else if (t < 0.28) {
+        // Inner ring/disc
+        const localT = (t - 0.12) / 0.16;
+        const angle = localT * Math.PI * 2;
+        const ringR = innerR + (midR - innerR) * 0.3;
         return {
-          x: discR * Math.cos(angle),
-          y: discR * Math.sin(angle),
-          z: (Math.random() - 0.5) * depth,
+          x: ringR * Math.cos(angle),
+          y: ringR * Math.sin(angle),
+          z: 0,
         };
       } else {
-        // Gear teeth
-        const localT = (t - 0.5) / 0.5;
+        // Gear teeth - settings icon style (smooth rounded teeth)
+        const localT = (t - 0.28) / 0.72;
         const toothIndex = Math.floor(localT * teeth);
         const toothProgress = (localT * teeth) % 1;
         const baseAngle = (toothIndex / teeth) * Math.PI * 2;
+        const toothAngleWidth = (Math.PI * 2 / teeth) * 0.45;
         
-        // Create tooth profile
-        const toothAngleWidth = (Math.PI * 2 / teeth) * 0.4;
         let toothR, toothAngle;
         
-        if (toothProgress < 0.3) {
-          // Left side of tooth
-          toothR = outerR + toothHeight * (toothProgress / 0.3);
+        if (toothProgress < 0.15) {
+          // Smooth rise to tooth (curved)
+          const rise = toothProgress / 0.15;
+          toothR = midR + (outerR - midR) * Math.sin(rise * Math.PI * 0.5);
           toothAngle = baseAngle - toothAngleWidth * 0.5;
-        } else if (toothProgress < 0.7) {
-          // Top of tooth
-          toothR = outerR + toothHeight;
-          toothAngle = baseAngle + toothAngleWidth * ((toothProgress - 0.3) / 0.4 - 0.5);
-        } else {
-          // Right side of tooth
-          toothR = outerR + toothHeight * (1 - (toothProgress - 0.7) / 0.3);
+        } else if (toothProgress < 0.5) {
+          // Top of tooth (flat but slightly rounded)
+          const topProgress = (toothProgress - 0.15) / 0.35;
+          toothR = outerR - (outerR - midR) * 0.02 * Math.sin(topProgress * Math.PI);
+          toothAngle = baseAngle + toothAngleWidth * (topProgress - 0.5);
+        } else if (toothProgress < 0.65) {
+          // Smooth fall from tooth (curved)
+          const fall = (toothProgress - 0.5) / 0.15;
+          toothR = outerR - (outerR - midR) * Math.sin(fall * Math.PI * 0.5);
           toothAngle = baseAngle + toothAngleWidth * 0.5;
+        } else {
+          // Gap between teeth (circular arc on inner circle)
+          const gapProgress = (toothProgress - 0.65) / 0.35;
+          toothR = midR;
+          const gapAngleWidth = (Math.PI * 2 / teeth) - toothAngleWidth;
+          toothAngle = baseAngle + toothAngleWidth * 0.5 + gapAngleWidth * gapProgress;
         }
         
         return {
@@ -353,48 +395,64 @@ const SHAPES: Record<string, ShapeConfig> = {
     },
   },
   
-  // Cloud shape (Cloud Solutions)
+  // Cloud shape (Cloud Solutions) - Classic cloud with 2 humps on top
   cloud: {
     name: 'cloud',
     getPosition: (index, total, radius) => {
-      const r = radius * 0.8;
+      const r = radius * 0.9;
       const t = index / total;
       
-      // Cloud made of multiple overlapping spheres
-      const cloudParts = [
-        { cx: 0, cy: 0, cz: 0, cr: r * 0.45 },        // Center
-        { cx: -r * 0.35, cy: r * 0.05, cz: 0, cr: r * 0.35 },  // Left
-        { cx: r * 0.35, cy: r * 0.05, cz: 0, cr: r * 0.38 },   // Right
-        { cx: -r * 0.55, cy: -r * 0.1, cz: 0, cr: r * 0.28 },  // Far left
-        { cx: r * 0.55, cy: -r * 0.08, cz: 0, cr: r * 0.3 },   // Far right
-        { cx: r * 0.15, cy: r * 0.15, cz: 0, cr: r * 0.32 },   // Top right
-        { cx: -r * 0.15, cy: r * 0.12, cz: 0, cr: r * 0.3 },   // Top left
+      // Classic cloud: flat bottom with 2 distinct humps on top
+      // Left hump, center valley, right hump structure
+      const cloudBumps = [
+        // Left hump (larger)
+        { cx: -r * 0.35, cy: r * 0.15, cz: 0, cr: r * 0.38 },
+        // Right hump (larger)
+        { cx: r * 0.35, cy: r * 0.15, cz: 0, cr: r * 0.38 },
+        // Center valley (smaller, lower)
+        { cx: 0, cy: r * 0.05, cz: 0, cr: r * 0.32 },
+        // Left base
+        { cx: -r * 0.5, cy: -r * 0.05, cz: 0, cr: r * 0.28 },
+        // Right base
+        { cx: r * 0.5, cy: -r * 0.05, cz: 0, cr: r * 0.28 },
+        // Center base (fills bottom)
+        { cx: 0, cy: -r * 0.15, cz: 0, cr: r * 0.45 },
       ];
       
-      // Distribute particles across cloud parts
-      const partIndex = Math.floor(t * cloudParts.length * 1.5) % cloudParts.length;
-      const part = cloudParts[partIndex];
+      // Distribute particles across bumps
+      const bumpIndex = Math.floor(t * cloudBumps.length * 1.5) % cloudBumps.length;
+      const bump = cloudBumps[bumpIndex];
       
-      // Create sphere surface for each part
-      const localT = (t * cloudParts.length * 1.5) % 1;
+      // Create sphere surface for each bump
+      const localT = (t * cloudBumps.length * 1.5) % 1;
       const phi = Math.acos(1 - 2 * localT);
       const theta = Math.PI * (1 + Math.sqrt(5)) * index;
       
-      // Only show upper hemisphere for fluffy cloud look
-      const sphereY = part.cr * Math.cos(phi);
-      const adjustedY = sphereY > -part.cr * 0.3 ? sphereY : -part.cr * 0.3 + Math.random() * part.cr * 0.1;
+      // Only upper hemisphere for cloud appearance, flatten bottom
+      const sphereY = bump.cr * Math.cos(phi);
+      
+      // For top bumps, show more of upper hemisphere
+      // For bottom parts, flatten significantly
+      let adjustedY;
+      if (bump.cy > 0) {
+        // Top bumps - show upper 70%
+        adjustedY = sphereY > -bump.cr * 0.3 ? sphereY : -bump.cr * 0.3;
+      } else {
+        // Bottom parts - show upper 50% only and flatten
+        adjustedY = sphereY > -bump.cr * 0.1 ? sphereY : -bump.cr * 0.1;
+      }
       
       return {
-        x: part.cx + part.cr * Math.sin(phi) * Math.cos(theta) * 0.9,
-        y: part.cy + adjustedY * 0.8,
-        z: part.cz + part.cr * Math.sin(phi) * Math.sin(theta) * 0.5,
+        x: bump.cx + bump.cr * Math.sin(phi) * Math.cos(theta) * 0.9,
+        y: bump.cy + adjustedY * 0.85,
+        z: bump.cz + bump.cr * Math.sin(phi) * Math.sin(theta) * 0.5,
       };
     },
   },
 };
 
-// Shape sequence for morphing animation - matches service icons
-const SHAPE_SEQUENCE = ['sphere', 'globe', 'mobile', 'pen', 'gear', 'trolley', 'cloud'];
+// Shape sequence for morphing animation - precise shapes only
+const SHAPE_SEQUENCE = ['globe', 'mobile', 'gear', 'pen', 'cloud'];
 
 interface Particle {
   id: number;
@@ -493,15 +551,15 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
   }, [isMobile, isLowEnd]);
   
   const BASE_RADIUS = useMemo(() => {
-    if (isLowEnd) return 100;
-    if (isMobile) return 110;
-    return 150;
+    if (isLowEnd) return 350;
+    if (isMobile) return 400;
+    return 550;
   }, [isMobile, isLowEnd]);
   
   const CANVAS_SIZE = useMemo(() => {
-    if (isLowEnd) return 350;
-    if (isMobile) return 400;
-    return 600;
+    if (isLowEnd) return 1100;
+    if (isMobile) return 1250;
+    return 1700;
   }, [isMobile, isLowEnd]);
   
   const initializeParticles = useCallback((shape: string) => {
@@ -523,7 +581,7 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
         velocityX: 0,
         velocityY: 0,
         velocityZ: 0,
-        size: 1.5 + Math.random() * 1.8,
+        size: 3.5 + Math.random() * 3.5,
         baseOpacity: 0.7 + Math.random() * 0.3,
         colorIndex,
         orbitOffset: Math.random() * Math.PI * 2,
@@ -568,7 +626,7 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
       const morphInterval = setInterval(() => {
         shapeIndexRef.current = (shapeIndexRef.current + 1) % SHAPE_SEQUENCE.length;
         morphToShape(SHAPE_SEQUENCE[shapeIndexRef.current]);
-      }, 2500); // Slightly slower for smoother experience
+      }, 4500); // Slower morphing for better viewing
       
       return () => clearInterval(morphInterval);
     }
@@ -704,8 +762,8 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
         const ry = (tempY + oy) * cosX - rz * sinX;
         const fz = (tempY + oy) * sinX + rz * cosX;
         
-        // Perspective
-        const perspective = 450;
+        // Perspective - increased for larger visual size
+        const perspective = 800;
         const scale = perspective / (perspective + fz);
         const px = cx + rx * scale;
         const py = cy + ry * scale;
@@ -814,12 +872,12 @@ const Antimatter: React.FC<AntimatterProps> = ({ currentSection }) => {
   // On mobile: stays centered at 50%
   const clampedProgress = Math.min(scrollProgress, 1); // Clamp position movement to first transition
   const targetLeft = isMobile ? 50 : 50 - (clampedProgress * 35); // 50% to 15%
-  const targetScale = 1 - (clampedProgress * 0.25); // 1 to 0.75
+  const targetScale = 1.2 - (clampedProgress * 0.45); // 1.2 to 0.75
   
   return (
     <motion.div
       className="fixed z-[5]"
-      initial={{ opacity: 0, scale: 0.8 }}
+      initial={{ opacity: 0, scale: 1.2 }}
       animate={{ 
         opacity: fadeOpacity, 
         scale: targetScale,
